@@ -100,6 +100,7 @@ BEGIN
       COALESCE(SUM(CASE WHEN type ILIKE '%Platinum%' THEN quantity ELSE 0 END), 0) as platinum,
       COALESCE(SUM(CASE WHEN type ILIKE '%Donor%' THEN quantity ELSE 0 END), 0) as donor,
       COALESCE(SUM(CASE WHEN type ILIKE '%Student%' THEN quantity ELSE 0 END), 0) as student,
+      COALESCE(SUM(CASE WHEN type = 'VIP' THEN quantity ELSE 0 END), 0) as vip,
       COALESCE(SUM(quantity), 0) as total,
       COALESCE(SUM(price * quantity), 0) as revenue
     FROM filtered_tickets
@@ -118,6 +119,21 @@ $$;
 
 
 ALTER FUNCTION "public"."get_admin_dashboard_data"("p_date_filter" "text", "p_type_filter" "text", "p_org_filter" "text", "p_funds_filter" "text") OWNER TO "postgres";
+
+
+CREATE OR REPLACE FUNCTION "public"."populate_vip_sequence"() RETURNS "trigger"
+    LANGUAGE "plpgsql"
+    AS $$
+BEGIN
+    IF NEW.type = 'VIP' THEN
+        NEW.vip_sequence_number := nextval('vip_ticket_sequence');
+    END IF;
+    RETURN NEW;
+END;
+$$;
+
+
+ALTER FUNCTION "public"."populate_vip_sequence"() OWNER TO "postgres";
 
 
 CREATE OR REPLACE FUNCTION "public"."rls_auto_enable"() RETURNS "event_trigger"
@@ -239,8 +255,9 @@ CREATE TABLE IF NOT EXISTS "public"."tickets" (
     "sequence_number" bigint NOT NULL,
     "whatsapp_opt_in" boolean DEFAULT true,
     "wa_message_id" "text",
+    "vip_sequence_number" integer,
     CONSTRAINT "tickets_status_check" CHECK (("status" = ANY (ARRAY['pending'::"text", 'booked'::"text", 'ticket_issued'::"text", 'checked_in'::"text", 'cancelled'::"text"]))),
-    CONSTRAINT "tickets_type_check" CHECK (("type" = ANY (ARRAY['Platinum'::"text", 'Donor'::"text", 'Bulk'::"text", 'Student'::"text"])))
+    CONSTRAINT "tickets_type_check" CHECK (("type" = ANY (ARRAY['Platinum'::"text", 'Donor'::"text", 'Student'::"text", 'VIP'::"text"])))
 );
 
 
@@ -260,6 +277,17 @@ ALTER TABLE "public"."tickets" ALTER COLUMN "sequence_number" ADD GENERATED ALWA
     CACHE 1
 );
 
+
+
+CREATE SEQUENCE IF NOT EXISTS "public"."vip_ticket_sequence"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE "public"."vip_ticket_sequence" OWNER TO "postgres";
 
 
 ALTER TABLE ONLY "public"."broadcasts"
@@ -325,6 +353,10 @@ CREATE INDEX "idx_tickets_wa_message_id" ON "public"."tickets" USING "btree" ("w
 
 
 CREATE INDEX "idx_tickets_whatsapp_status" ON "public"."tickets" USING "btree" ("whatsapp_status");
+
+
+
+CREATE OR REPLACE TRIGGER "trg_populate_vip_sequence" BEFORE INSERT ON "public"."tickets" FOR EACH ROW EXECUTE FUNCTION "public"."populate_vip_sequence"();
 
 
 
@@ -719,6 +751,12 @@ GRANT ALL ON FUNCTION "public"."gtrgm_union"("internal", "internal") TO "service
 
 
 
+GRANT ALL ON FUNCTION "public"."populate_vip_sequence"() TO "anon";
+GRANT ALL ON FUNCTION "public"."populate_vip_sequence"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."populate_vip_sequence"() TO "service_role";
+
+
+
 GRANT ALL ON FUNCTION "public"."rls_auto_enable"() TO "anon";
 GRANT ALL ON FUNCTION "public"."rls_auto_enable"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."rls_auto_enable"() TO "service_role";
@@ -885,6 +923,12 @@ GRANT ALL ON TABLE "public"."tickets" TO "service_role";
 GRANT ALL ON SEQUENCE "public"."tickets_sequence_number_seq" TO "anon";
 GRANT ALL ON SEQUENCE "public"."tickets_sequence_number_seq" TO "authenticated";
 GRANT ALL ON SEQUENCE "public"."tickets_sequence_number_seq" TO "service_role";
+
+
+
+GRANT ALL ON SEQUENCE "public"."vip_ticket_sequence" TO "anon";
+GRANT ALL ON SEQUENCE "public"."vip_ticket_sequence" TO "authenticated";
+GRANT ALL ON SEQUENCE "public"."vip_ticket_sequence" TO "service_role";
 
 
 
