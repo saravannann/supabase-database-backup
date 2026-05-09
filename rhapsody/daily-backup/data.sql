@@ -4,7 +4,7 @@ SET session_replication_role = replica;
 -- PostgreSQL database dump
 --
 
--- \restrict Mzwo4DM4YLqS5YsLmBErnjTrWufFwSBNfRt5V2GCsdfNe4tJsPrW3eCmDe40kv2
+-- \restrict tvydZ0adONrzMdiD1zhQmGRHECwdz6ucVRIhl0pEGHDcbuCcfNBstQeml16zrMy
 
 -- Dumped from database version 17.6
 -- Dumped by pg_dump version 17.6
@@ -224,9 +224,9 @@ COPY "public"."profiles" ("id", "name", "phone", "roles", "password", "pass_targ
 88bde73d-1b6f-4fab-b20f-4259c070beb9	Arun	+919994561398	{organiser,admin,front_desk}	12345	{"Donor Pass": 150, "Student Pass": 0, "Platinum Pass": 100}
 7b146665-56b6-4cff-a6a3-ce7a7d2ff0c0	Christy	+919600363093	{organiser,admin,front_desk}	12345	{"VIP Pass": 10, "Donor Pass": 50, "Student Pass": 0, "Platinum Pass": 50}
 4b2b7df6-402e-475a-a75e-244db1feb1ab	Vinyas	+919952021583	{organiser}	12345	{"Donor Pass": 10, "Student Pass": 0, "Platinum Pass": 15}
-d3cf5d6d-6584-45bf-93f2-1b2f1676c86a	Vishwa	+919884465080	{organiser}	12345	{"Donor Pass": 10, "Student Pass": 0, "Platinum Pass": 20}
 60f67a43-8b8b-4f9c-9b02-832a7c8d7e0b	Yuva	+918825451092	{organiser}	12345	{"Donor Pass": 25, "Student Pass": 0, "Platinum Pass": 125}
 5ef44e0d-5d15-4819-8671-36142896630f	Andrew	+919884045557	{organiser,admin,front_desk}	12345	{"Donor Pass": 0, "Student Pass": 0, "Platinum Pass": 10}
+d3cf5d6d-6584-45bf-93f2-1b2f1676c86a	Vishwa	+919884465080	{organiser,admin,front_desk}	12345	{"Donor Pass": 10, "Student Pass": 0, "Platinum Pass": 20}
 a0bfdf23-7cbb-41c6-a57a-fa6d881e0f54	Aysh	+919840803381	{organiser}	12345	{"Donor Pass": 10, "Student Pass": 0, "Platinum Pass": 25}
 c9daa7a0-1fc9-4a2d-81bf-556dbcacc11b	Babitha	+916382014335	{organiser}	12345	{"Donor Pass": 10, "Student Pass": 0, "Platinum Pass": 10}
 c0060f90-9eae-4216-906b-efb53fa56c13	Jeba	+917401250786	{organiser}	12345	{"Donor Pass": 10, "Student Pass": 0, "Platinum Pass": 20}
@@ -250,8 +250,8 @@ b0b09d7e-10a2-48fc-b892-114fb82fc500	Roshini	+919840801328	{organiser}	Bestie@17
 
 COPY "public"."tickets" ("id", "event_id", "type", "price", "status", "purchaser_name", "created_at", "sold_by", "purchaser_phone", "funds_destination", "quantity", "bank_txn_id", "whatsapp_status", "whatsapp_error", "last_whatsapp_at", "checked_in_count", "sequence_number", "whatsapp_opt_in", "wa_message_id", "vip_sequence_number") FROM stdin;
 1123dcc2-c6a7-41be-8113-2b797f05ef43	\N	Platinum	500	booked	Somu	2026-04-20 06:12:16.729944+00	Jenny	+919790800780	organizer	1	\N	sent	\N	2026-04-20 06:12:17.239+00	0	2	t	\N	\N
-736f507c-8430-4690-b719-775645059443	\N	Platinum	500	checked_in	Saravanan	2026-04-20 06:11:11.69867+00	Jenny	+919962293848	organizer	1	\N	sent	\N	2026-04-20 13:58:18.708+00	1	1	t	\N	\N
 8770638d-a62e-41e0-a7b0-ac233b98b232	\N	Platinum	500	booked	Suriya Selvam	2026-04-20 07:08:44.917378+00	Christy	+919092062827	organizer	2	\N	sent	\N	2026-04-20 07:08:46.846+00	0	3	t	\N	\N
+736f507c-8430-4690-b719-775645059443	\N	Platinum	500	booked	Saravanan	2026-04-20 06:11:11.69867+00	Jenny	+919962293848	organizer	1	\N	sent	\N	2026-04-20 13:58:18.708+00	1	1	t	\N	\N
 2f460511-6c41-40c0-bbbb-452c3ef1f98e	\N	Donor	1000	booked	Sneha	2026-04-20 10:23:49.809258+00	Roshini	+918695676348	organizer	1	\N	sent	\N	2026-04-20 10:23:52.089+00	0	14	t	\N	\N
 f63f4f65-4153-4e35-b3bd-7f21d184588d	\N	Donor	1000	booked	Saranya	2026-04-20 10:27:01.981095+00	Roshini	+919600198828	organizer	1	\N	sent	\N	2026-04-20 10:27:03.171+00	0	15	t	\N	\N
 fe829e62-7a1f-4f67-8ab0-0c6394b33099	\N	Donor	1000	booked	Suriya Selvam	2026-04-20 07:09:28.884026+00	Christy	+919092062827	organizer	4	\N	sent	\N	2026-04-20 07:37:52.196+00	0	4	t	\N	\N
@@ -394,7 +394,6 @@ c9831124-3eb2-42f2-b611-34f66aa82b9f	\N	Platinum	500	booked	Saravanan 	2026-04-2
 50aab2c0-522a-46e6-8972-2d3efa664aeb	\N	Platinum	500	booked	Sivakumar Prabhakaran	2026-04-24 04:43:36.405179+00	Arun	+919840220161	trust	4	648047885242	sent	\N	2026-04-24 04:43:37.498+00	0	144	t	\N	\N
 b0cde038-3086-488d-9a67-a014a2d44539	\N	Donor	1000	booked	Thileepan 	2026-04-24 05:07:19.960405+00	Arun	+919940765642	organizer	10	\N	sent	\N	2026-04-24 05:07:21.74+00	0	145	t	\N	\N
 3e6955b0-8419-4627-8e76-c8a97f1900cd	\N	Donor	1000	booked	Tito	2026-04-24 05:30:03.521856+00	Arun	+919962912329	trust	2	090538945225	sent	\N	2026-04-24 07:06:21.362+00	0	146	t	\N	\N
-19d004b3-cafe-4ba3-84c8-b3985f77f515	\N	Platinum	500	booked	Mrs and Mr Madhu	2026-04-24 06:18:00.895479+00	Vishwa	+919790974498	organizer	2	\N	sent	\N	2026-04-24 06:18:02.005+00	0	147	t	\N	\N
 c1b9115a-32dd-4213-ad0f-f613b10cd5f9	\N	Donor	1000	booked	Abinaya Prabhu 	2026-04-24 07:11:06.209603+00	Arun	+919500133555	trust	2	109674260042	sent	\N	2026-04-24 07:11:07.856+00	0	148	t	\N	\N
 a62fbe98-d0c6-4be8-baba-9efbeac302b8	\N	Donor	1000	booked	Gayathri 	2026-04-24 08:19:48.169196+00	Vinyas	+919952548910	organizer	1	\N	sent	\N	2026-04-24 08:19:49.866+00	0	149	t	\N	\N
 35ee2689-a2a4-44aa-bfd4-03229e7d7cc0	\N	Donor	1000	booked	Aruvi	2026-04-24 08:20:36.392344+00	Vinyas	+919790454017	organizer	1	\N	sent	\N	2026-04-24 08:20:38.126+00	0	150	t	\N	\N
@@ -673,7 +672,6 @@ c6ce56a9-22f5-4ea5-bebc-effa3220fede	\N	Platinum	500	booked	Nithin Naveen	2026-0
 9a58ccbe-fd5e-444d-982e-90f0e096487b	\N	Donor	1000	booked	Stalin Michael	2026-05-05 14:35:18.074407+00	Vishwa	+919860299149	trust	1	612522008961	sent	\N	2026-05-05 14:35:18.412+00	0	482	t	\N	\N
 4eb1c3bf-4c3d-45f9-af09-5e6cb0109178	\N	Platinum	500	booked	Jasritha	2026-05-04 18:03:07.764643+00	Afrin	+919884068005	organizer	4	\N	sent	\N	2026-05-04 18:03:08.302+00	0	437	t	\N	\N
 278a1272-e437-4f16-9684-28738e15bd54	\N	Donor	1000	booked	Sophia Pillai	2026-05-05 14:46:05.971393+00	Vishwa	+919884465080	organizer	10	\N	sent	\N	2026-05-05 14:46:06.565+00	0	485	t	\N	\N
-17cc4b28-885e-4bf6-ac01-29cc69d41672	\N	Platinum	500	booked	Kavinmathi	2026-05-04 18:03:07.869347+00	Afrin	+919677461092	organizer	7	\N	sent	\N	2026-05-04 18:03:08.391+00	0	438	t	\N	\N
 ebad84b8-c172-4ff1-bd72-7600d3e59a5f	\N	Platinum	500	booked	Mr.Ashok 	2026-05-05 17:26:15.812075+00	Babitha	+919092711298	organizer	4	\N	sent	\N	2026-05-05 17:26:17.769+00	0	488	t	\N	\N
 4f902c84-93b3-4dfb-bffb-3ca7b63a4611	\N	Platinum	500	booked	Aditi	2026-05-04 18:03:08.13874+00	Afrin	+919962532758	organizer	4	\N	sent	\N	2026-05-04 18:03:08.596+00	0	441	t	\N	\N
 06f09b21-2dbd-4030-b781-47b2c27cd913	\N	Donor	1000	booked	Krithika	2026-05-05 17:59:45.854206+00	Christy	+918344682422	organizer	1	\N	sent	\N	2026-05-05 17:59:47.994+00	0	491	t	\N	\N
@@ -735,7 +733,6 @@ f79dbc58-f637-4946-afb5-fddc69faff03	\N	Platinum	500	booked	Kanishka	2026-05-07 
 3edf0cf5-9fb0-4744-a2f8-a568850c5aee	\N	Platinum	500	booked	Swara Praveen	2026-05-04 18:03:10.442648+00	Afrin	+919840430362	organizer	3	\N	sent	\N	2026-05-04 18:03:13.908+00	0	466	t	\N	\N
 92c037ec-71da-4064-a79f-5751aef84a25	\N	Platinum	500	booked	Vedi Smriti	2026-05-04 18:03:10.341878+00	Afrin	+919884104211	organizer	2	\N	sent	\N	2026-05-04 18:03:13.908+00	0	465	t	\N	\N
 a62d470f-4f15-4157-a72d-377c66dbbaa4	\N	Donor	1000	booked	Jayanta Bose	2026-05-05 05:29:05.938161+00	Tanu	+917873999995	organizer	1	\N	sent	\N	2026-05-05 05:29:07.976+00	0	470	t	\N	\N
-4ee5be14-b9f3-4779-8a25-93fc33dc1044	\N	Platinum	500	booked	Pradeep Niranjan 	2026-05-05 09:51:47.991627+00	Arun	+919952035679	organizer	4	\N	sent	\N	2026-05-05 09:51:50.155+00	0	475	t	\N	\N
 7d5bd42e-81ee-431c-90a7-3a695fa14473	\N	Donor	1000	booked	Baburaj	2026-05-05 13:04:20.066783+00	Tanu	+918189909986	organizer	1	\N	sent	\N	2026-05-05 13:04:21.868+00	0	478	t	\N	\N
 8825eed0-0bfa-4b5a-81ef-d2b6bf58527d	\N	Donor	1000	booked	Julian D'Souza	2026-05-05 14:31:11.437103+00	Vishwa	+919834014235	trust	2	122656791977	sent	\N	2026-05-05 14:31:12.934+00	0	481	t	\N	\N
 c0f1c1c6-dd0f-4f2f-8b5d-30ddc2c0c294	\N	Platinum	500	booked	Wilfred	2026-05-05 14:42:16.383656+00	Christy	+919600363093	organizer	10	\N	sent	\N	2026-05-05 14:42:17.573+00	0	484	t	\N	\N
@@ -844,7 +841,6 @@ b4a5b81f-81a9-4bc6-84a6-47d644033b70	\N	Donor	1000	booked	Deeptha	2026-05-07 18:
 865dc3e6-a1dd-4dba-a616-d23e07240e89	\N	Platinum	500	booked	Sowmya	2026-05-07 18:45:05.641248+00	Yuva	+917358543373	organizer	1	\N	sent	\N	2026-05-07 18:45:07.13+00	0	602	t	\N	\N
 e17864b3-4834-4de4-a432-9e2f72052446	\N	Donor	1000	booked	Sreelata Mukerjee	2026-05-07 20:22:00.23111+00	Arun	+918939840286	trust	1	612743811527	sent	\N	2026-05-07 20:22:01.878+00	0	632	t	\N	\N
 6493576a-411a-4b8b-ac9d-306439634611	\N	Platinum	500	booked	Pavithra	2026-05-07 20:35:18.021887+00	Afrin	+918248283528	organizer	1	\N	sent	\N	2026-05-07 20:35:18.738+00	0	634	t	\N	\N
-0e028073-2f80-4c42-94b9-2819550c24e2	\N	Platinum	500	booked	Tamilselvan9941176051	2026-05-07 18:49:05.656106+00	Arun	+919941176051	trust	5	RCG Global	sent	\N	2026-05-07 20:38:59.519+00	0	605	t	\N	\N
 8e329d0d-e979-4be6-9a5c-0f1e21dac40e	\N	Platinum	500	booked	Sudharson	2026-05-07 18:49:05.276342+00	Arun	+918807780045	trust	4	RCG Global	sent	\N	2026-05-07 18:49:06.277+00	0	603	t	\N	\N
 62d63db0-97aa-41f5-abbb-f2eb12116f59	\N	Platinum	500	booked	Varshitha	2026-05-07 20:43:54.151966+00	Afrin	+919003245652	organizer	1	\N	sent	\N	2026-05-07 20:43:54.84+00	0	635	t	\N	\N
 f71a208f-bef4-4746-b16d-ab772961196f	\N	Platinum	500	booked	Akkshara	2026-05-07 18:49:05.79235+00	Arun	+919840786592	trust	1	RCG Global	sent	\N	2026-05-07 18:49:06.591+00	0	606	t	\N	\N
@@ -877,10 +873,9 @@ cdb94352-8ef6-4737-9b1b-e2516170f862	\N	Platinum	500	booked	Keerthana	2026-05-07
 14c3995f-a1a1-49ce-b341-f2d04966b06c	\N	Platinum	500	booked	Vijaikumar	2026-05-07 18:49:07.636695+00	Arun	+919025637472	trust	1	RCG Global	sent	\N	2026-05-07 18:49:31.438+00	0	623	t	\N	\N
 50a34928-9ced-410f-ae2c-3d587ea7bc0c	\N	Platinum	500	booked	Sethuramalingam	2026-05-07 18:49:07.807903+00	Arun	+917904135532	trust	1	RCG Global	sent	\N	2026-05-07 18:49:31.438+00	0	625	t	\N	\N
 20478630-5ef8-4c65-8eda-af80ca8c28f0	\N	VIP	0	booked	Santhosh Kumar	2026-05-07 20:55:03.567657+00	Yuva	+919843911151	organizer	1	\N	sent	\N	2026-05-07 20:55:04.34+00	0	644	t	\N	11
-3186931d-dd77-443e-ac76-571f8b537df4	\N	VIP	0	booked	Graciana	2026-05-07 20:55:33.588731+00	Jenny	+917045502812	organizer	4	\N	sent	\N	2026-05-07 20:55:34.243+00	0	645	t	\N	12
-51e43be0-c6dd-410e-88d9-ec6f0cb2af50	\N	VIP	0	booked	Shalini Robert	2026-05-07 20:55:52.396371+00	Arun	+919841800293	organizer	4	\N	sent	\N	2026-05-07 20:55:52.983+00	0	646	t	\N	13
+3186931d-dd77-443e-ac76-571f8b537df4	\N	VIP	0	booked	Graciana	2026-05-07 20:55:33.588731+00	Jenny	+917045502812	organizer	4	\N	sent	\N	2026-05-08 08:43:52.702+00	0	645	t	\N	12
+51e43be0-c6dd-410e-88d9-ec6f0cb2af50	\N	VIP	0	booked	Shalini Robert	2026-05-07 20:55:52.396371+00	Arun	+919841800293	organizer	4	\N	sent	\N	2026-05-08 08:44:01.98+00	0	646	t	\N	13
 cab5bcdf-e76d-44fb-a664-8b54cc5f2a0e	\N	VIP	0	booked	Yogesh	2026-05-07 20:56:19.290821+00	Babitha	+919940520862	organizer	15	\N	sent	\N	2026-05-07 20:56:19.991+00	0	647	t	\N	14
-1b3eeecd-b6bb-492c-aa0e-7c394ae9e717	\N	VIP	0	booked	Godwin	2026-05-07 20:57:54.581456+00	Jessita	+919095497777	organizer	12	\N	sent	\N	2026-05-07 20:57:55.153+00	0	648	t	\N	15
 8aba54a2-7f87-4055-9716-34ec345445e5	\N	VIP	0	booked	Jesudoss	2026-05-07 20:58:36.522079+00	Jessita	+919095497777	organizer	3	\N	sent	\N	2026-05-07 20:58:37.046+00	0	649	t	\N	16
 a7361ed4-7ea1-4ba7-956e-1d029bf96b1b	\N	VIP	0	booked	Preethi	2026-05-07 21:00:21.962971+00	Arun	+919840121349	organizer	6	\N	sent	\N	2026-05-07 21:00:22.637+00	0	650	t	\N	17
 11c4b3c3-c0bb-44c8-8e01-bab4a2890a1c	\N	VIP	0	booked	Mr Praveen	2026-05-07 21:01:24.191455+00	Arun	+919944909944	organizer	2	\N	sent	\N	2026-05-07 21:01:24.873+00	0	651	t	\N	18
@@ -893,6 +888,104 @@ c2389e7b-0ff5-427d-8f1c-ff0ad150364b	\N	VIP	0	booked	Prabhu	2026-05-07 21:04:16.
 5d52899f-2da5-4e4a-8d18-649964762fe1	\N	VIP	0	booked	Ramya	2026-05-07 21:08:10.456778+00	Vishwa	+919688224935	organizer	2	\N	sent	\N	2026-05-07 21:08:11.192+00	0	658	t	\N	24
 2d1ba175-9a96-4ada-8b7f-a786b81c5628	\N	Donor	1000	booked	Ramesh	2026-05-07 21:49:19.319905+00	Preetha	+919840893501	trust	1	612790151001	sent	\N	2026-05-07 21:49:21.113+00	0	659	t	\N	\N
 4f9e4112-50d0-47b4-a65a-ab4a99af2dc3	\N	Platinum	500	booked	Krishna Priya	2026-05-08 02:40:59.71254+00	Ramya	8778972687	trust	2	612849322274	sent	\N	2026-05-08 02:41:49.866+00	0	660	t	\N	\N
+1b3eeecd-b6bb-492c-aa0e-7c394ae9e717	\N	VIP	0	booked	Godwin	2026-05-07 20:57:54.581456+00	Jessita	+919095497777	organizer	12	\N	sent	\N	2026-05-08 03:35:44.61+00	0	648	t	\N	15
+c63d92af-0439-4ddc-8880-a0f35b40983d	\N	Platinum	500	booked	Mini	2026-05-08 03:43:54.919948+00	Jenny	+919884088088	organizer	2	\N	sent	\N	2026-05-08 03:43:57.971+00	0	661	t	\N	\N
+6bb013cf-4997-4e53-bbc8-1c9772630d53	\N	Donor	1000	booked	Mini	2026-05-08 03:44:09.169777+00	Jenny	+919884088088	organizer	1	\N	sent	\N	2026-05-08 03:44:11.098+00	0	662	t	\N	\N
+aad203e4-8cb8-49cf-b9aa-884a18d0bc79	\N	Platinum	500	booked	Karishma	2026-05-08 03:55:03.364483+00	Christy	+919788215000	organizer	2	\N	sent	\N	2026-05-08 03:55:05.749+00	0	663	t	\N	\N
+7d95896f-0639-42ed-89a1-5fa800b55727	\N	Platinum	500	booked	Shyam	2026-05-08 03:55:43.007838+00	Christy	+919043250789	organizer	1	\N	sent	\N	2026-05-08 03:55:45.388+00	0	664	t	\N	\N
+5f6aba3d-09ce-43ef-9941-aa26f6e8f6de	\N	Platinum	500	booked	Julius 	2026-05-08 03:56:04.993042+00	Christy	+919710066188	organizer	1	\N	sent	\N	2026-05-08 03:56:06.9+00	0	665	t	\N	\N
+c2ec71ce-c018-456c-99e7-5c927ec2ee28	\N	Donor	1000	booked	Flora	2026-05-08 04:23:10.353338+00	Jenny	+917871099336	organizer	1	\N	sent	\N	2026-05-08 04:23:13.014+00	0	666	t	\N	\N
+ecb9194e-4ef9-4672-a9a4-6b248d45dd23	\N	Platinum	500	booked	Julius	2026-05-08 04:51:55.678875+00	Christy	+919710066188	organizer	1	\N	sent	\N	2026-05-08 04:51:58.087+00	0	667	t	\N	\N
+1b075781-ae29-4574-a431-69cd6f6c4fa6	\N	Platinum	500	booked	Sumi	2026-05-08 04:54:31.916892+00	Ramya	+61 400 473 087	organizer	5	\N	sent	\N	2026-05-08 04:54:52.301+00	0	668	t	\N	\N
+de32147d-62b4-451f-bef8-0a919f39fa5f	\N	Platinum	500	booked	Simi	2026-05-08 05:28:09.210002+00	Jeba	+917401250786	organizer	2	\N	sent	\N	2026-05-08 05:28:10.103+00	0	669	t	\N	\N
+d1422e9e-9e59-4c4f-836f-f9e5898ad6c6	\N	Platinum	500	booked	Kailash	2026-05-08 05:41:29.40423+00	Ravi	+917010872174	organizer	2	\N	sent	\N	2026-05-08 05:41:29.987+00	0	670	t	\N	\N
+98e4ad4e-c678-4a2a-b112-6c277f84ac71	\N	Platinum	500	booked	Imran	2026-05-08 05:41:30.037727+00	Ravi	+919790793134	organizer	3	\N	sent	\N	2026-05-08 05:41:30.115+00	0	671	t	\N	\N
+d2ac7a0f-d28b-47d8-9500-68ae120e6562	\N	Platinum	500	booked	Punith	2026-05-08 05:41:30.27558+00	Ravi	+917305847215	organizer	2	\N	sent	\N	2026-05-08 05:41:30.297+00	0	672	t	\N	\N
+fe71b702-cd3e-4439-8265-c0906c1b8aca	\N	Platinum	500	booked	Syed	2026-05-08 05:41:30.505236+00	Ravi	+919500000554	organizer	3	\N	sent	\N	2026-05-08 05:41:30.532+00	0	673	t	\N	\N
+c0ff5905-4bc0-4c30-93f1-82b06121de29	\N	Platinum	500	booked	Lekshwin	2026-05-08 05:41:30.914982+00	Ravi	+919360436119	organizer	1	\N	sent	\N	2026-05-08 05:41:30.926+00	0	675	t	\N	\N
+d3169245-adea-4e07-86ab-4678635afda4	\N	Platinum	500	booked	Harsha	2026-05-08 05:41:31.110713+00	Ravi	+917358004289	organizer	2	\N	sent	\N	2026-05-08 05:41:31.123+00	0	676	t	\N	\N
+dc95732f-754f-4d9e-8572-44913af95213	\N	Platinum	500	booked	Shenoy	2026-05-08 05:41:31.277621+00	Ravi	+918454920429	organizer	1	\N	sent	\N	2026-05-08 05:41:31.308+00	0	677	t	\N	\N
+1e28337f-0f5f-4b33-ba3d-2c051540bae8	\N	Platinum	500	booked	Adithya	2026-05-08 05:41:31.463934+00	Ravi	+919840236762	organizer	2	\N	sent	\N	2026-05-08 05:41:31.546+00	0	678	t	\N	\N
+4ec1b86f-4ddd-4f64-b42e-c02cb032b084	\N	Platinum	500	booked	Kishore	2026-05-08 05:41:30.714243+00	Ravi	+919840701905	organizer	2	\N	sent	\N	2026-05-08 05:41:31.663+00	0	674	t	\N	\N
+b076d17d-ab06-4a63-b14b-0729febdd68f	\N	Platinum	500	booked	Mayank	2026-05-08 05:41:31.655247+00	Ravi	+919176781795	organizer	1	\N	sent	\N	2026-05-08 05:41:31.841+00	0	679	t	\N	\N
+05f935e2-11db-44bd-a8a0-aa518543bb69	\N	Platinum	500	booked	Jerry	2026-05-08 05:41:31.856838+00	Ravi	+919500096236	organizer	1	\N	sent	\N	2026-05-08 05:41:31.847+00	0	680	t	\N	\N
+a0bc28f5-f8be-4b93-9ea1-338faa36fdab	\N	Platinum	500	booked	Edison	2026-05-08 05:41:32.013526+00	Ravi	+919092761736	organizer	1	\N	sent	\N	2026-05-08 05:41:32.219+00	0	681	t	\N	\N
+99fed6ea-8cb9-4f8d-93f3-ce4148979b0c	\N	Platinum	500	booked	Pravin	2026-05-08 05:41:32.190516+00	Ravi	+916379038235	organizer	1	\N	sent	\N	2026-05-08 05:41:32.228+00	0	682	t	\N	\N
+5c35a367-296e-47e1-802d-01cc0168869a	\N	Platinum	500	booked	Abishek	2026-05-08 05:41:32.349676+00	Ravi	+917305001321	organizer	1	\N	sent	\N	2026-05-08 05:41:32.377+00	0	683	t	\N	\N
+56d1f056-c3a9-44b4-adcb-13e5a8afbe80	\N	Platinum	500	booked	Pavan	2026-05-08 05:41:32.532201+00	Ravi	+919952209709	organizer	2	\N	sent	\N	2026-05-08 05:41:32.542+00	0	684	t	\N	\N
+37c0c1d6-d1d6-4a93-a703-8245e9b236d1	\N	Platinum	500	booked	Ashish	2026-05-08 05:41:32.922832+00	Ravi	+919910191624	organizer	1	\N	sent	\N	2026-05-08 05:41:32.943+00	0	686	t	\N	\N
+cb2cc645-5cd5-4fa2-a013-95d8320e4010	\N	Platinum	500	booked	Arun Benjamin	2026-05-08 05:41:35.330451+00	Ravi	+919944019190	organizer	5	\N	sent	\N	2026-05-08 05:41:35.313+00	0	699	t	\N	\N
+49527947-4fe6-40c1-8436-9ba65e3770a8	\N	Platinum	500	booked	Manjeeth	2026-05-08 05:41:32.748891+00	Ravi	+919094125454	organizer	1	\N	sent	\N	2026-05-08 05:41:32.787+00	0	685	t	\N	\N
+a51641ae-6769-4dee-bcce-2b05fb5ee417	\N	Platinum	500	booked	Vipin	2026-05-08 05:41:33.139379+00	Ravi	+919643775905	organizer	1	\N	sent	\N	2026-05-08 05:41:33.174+00	0	687	t	\N	\N
+b7628fc3-4164-496a-b051-682edfa5c2be	\N	Platinum	500	booked	Venkatesh	2026-05-08 05:41:33.47309+00	Ravi	+918015015404	organizer	1	\N	sent	\N	2026-05-08 05:41:33.541+00	0	689	t	\N	\N
+8c7b0ad7-aae5-4c37-898e-10057e330911	\N	Platinum	500	booked	Ramesh Bakka	2026-05-08 05:41:33.904214+00	Ravi	+918374708989	organizer	2	\N	sent	\N	2026-05-08 05:41:33.889+00	0	691	t	\N	\N
+58e41fac-f907-4e24-9a9c-6c6b0ac49df8	\N	Platinum	500	booked	Jeniffer	2026-05-08 05:41:34.242474+00	Ravi	+919566229437	organizer	3	\N	sent	\N	2026-05-08 05:41:34.255+00	0	693	t	\N	\N
+39ae7553-c6d5-4ee7-af26-1a44b32ae5fa	\N	Platinum	500	booked	Dinesh	2026-05-08 05:41:34.600731+00	Ravi	+919841692789	organizer	2	\N	sent	\N	2026-05-08 05:41:34.556+00	0	695	t	\N	\N
+81658a38-8ae2-45b4-bb3a-09524f0f7854	\N	Platinum	500	booked	Balasubramanian	2026-05-08 05:41:34.931511+00	Ravi	+919686601124	organizer	2	\N	sent	\N	2026-05-08 05:41:34.972+00	0	697	t	\N	\N
+0f707d13-5353-4010-886c-a7b41ed2d367	\N	Platinum	500	booked	Mr. Palani	2026-05-08 05:41:35.694908+00	Ravi	+919500115409	organizer	3	\N	sent	\N	2026-05-08 05:41:40.681+00	0	701	t	\N	\N
+b8afdafa-846d-49b1-8465-898daf9c4d5a	\N	Platinum	500	booked	Prithvi	2026-05-08 05:41:33.325449+00	Ravi	+919164237619	organizer	1	\N	sent	\N	2026-05-08 05:41:33.304+00	0	688	t	\N	\N
+55031e30-9da6-481a-abc2-aea34e26ceec	\N	Platinum	500	booked	Dinesh	2026-05-08 05:41:34.410219+00	Ravi	+919884777639	organizer	2	\N	sent	\N	2026-05-08 05:41:34.428+00	0	694	t	\N	\N
+06922c2b-c72d-424d-b387-bd2f9fb07f13	\N	Platinum	500	booked	Vignesh	2026-05-08 05:41:34.778071+00	Ravi	+919940010543	organizer	2	\N	sent	\N	2026-05-08 05:41:34.712+00	0	696	t	\N	\N
+8e9d2107-760f-4ce7-b74f-14b8ec838941	\N	Platinum	500	booked	Ramakrishnan	2026-05-08 05:41:35.14959+00	Ravi	+919677197979	organizer	3	\N	sent	\N	2026-05-08 05:41:35.133+00	0	698	t	\N	\N
+a52f8842-01aa-406d-8b11-863655cf2df0	\N	Platinum	500	booked	subash	2026-05-08 05:41:35.884461+00	Ravi	+918610479725	organizer	1	\N	sent	\N	2026-05-08 05:41:40.682+00	0	702	t	\N	\N
+37f4087b-7f65-4381-bd7f-2ab4110dcff7	\N	Platinum	500	booked	Rohith	2026-05-08 05:41:33.694041+00	Ravi	+917904434571	organizer	1	\N	sent	\N	2026-05-08 05:41:33.724+00	0	690	t	\N	\N
+615e9b95-b365-464b-817b-f97c50836aa8	\N	Platinum	500	booked	Joe	2026-05-08 05:41:34.081526+00	Ravi	+919677456677	organizer	1	\N	sent	\N	2026-05-08 05:41:34.075+00	0	692	t	\N	\N
+c550e99a-5906-4593-b31f-48513e6a9a7b	\N	Platinum	500	booked	Dinesh	2026-05-08 05:41:35.518888+00	Ravi	+918428611326	organizer	2	\N	sent	\N	2026-05-08 05:41:40.681+00	0	700	t	\N	\N
+5971457a-778e-4100-ae92-6c1e97c8c771	\N	VIP	0	booked	Ahmed	2026-05-08 05:50:00.654304+00	Jenny	+919845372971	organizer	3	\N	sent	\N	2026-05-08 05:50:02.595+00	0	703	t	\N	25
+2d74f80b-9f85-4e3e-8246-7815e0498688	\N	Donor	1000	booked	Chabbu	2026-05-08 05:51:00.299926+00	Ramya	+919381140670	organizer	2	\N	sent	\N	2026-05-08 05:51:01.434+00	0	704	t	\N	\N
+c70a0059-bc70-478f-b1eb-468481971d1c	\N	Donor	1000	booked	Saranya	2026-05-08 06:07:09.199536+00	Christy	+919840787197	organizer	1	\N	sent	\N	2026-05-08 06:07:11.544+00	0	705	t	\N	\N
+135fd660-9979-46f8-8bfd-bcef41e28d29	\N	Platinum	500	booked	Indhu	2026-05-08 06:38:39.880767+00	Jenny	+919940471787	organizer	4	\N	sent	\N	2026-05-08 06:38:42.707+00	0	706	t	\N	\N
+17cc4b28-885e-4bf6-ac01-29cc69d41672	\N	Platinum	500	booked	Kavinmathi	2026-05-04 18:03:07.869347+00	Afrin	+919677461092	organizer	5	\N	sent	\N	2026-05-04 18:03:08.391+00	0	438	t	\N	\N
+0e028073-2f80-4c42-94b9-2819550c24e2	\N	Platinum	500	booked	Tamilselvan	2026-05-07 18:49:05.656106+00	Arun	+919941176051	trust	5	RCG Global	sent	\N	2026-05-07 20:38:59.519+00	0	605	t	\N	\N
+198895f3-0719-45be-9442-1c60c6830606	\N	Platinum	500	booked	Prithvi	2026-05-08 07:43:09.575173+00	Roshini	+918056123825	organizer	1	\N	sent	\N	2026-05-08 07:43:11.115+00	0	707	t	\N	\N
+8044c6b2-b30e-4bc1-9677-e8c7634d8614	\N	Platinum	500	booked	Jayanthi	2026-05-08 07:49:48.712876+00	Aysh	+919962671650	organizer	1	\N	sent	\N	2026-05-08 07:49:50.46+00	0	708	t	\N	\N
+94f09f41-6b92-40b0-aca8-8a4336621079	\N	Platinum	500	booked	Sukanya Ravi	2026-05-08 07:50:28.604805+00	Aysh	+916381395072	organizer	1	\N	sent	\N	2026-05-08 07:50:30.049+00	0	709	t	\N	\N
+af372cb8-6083-4f15-8745-a5545e7db405	\N	Platinum	500	booked	Gangadharan	2026-05-08 08:31:30.227496+00	Arun	+919884548947	organizer	1	\N	sent	\N	2026-05-08 08:31:31.762+00	0	710	t	\N	\N
+f9a93fe6-5bed-413d-95bd-a44d432ab9b8	\N	Platinum	500	booked	Gangadharan	2026-05-08 08:35:58.997104+00	Arun	+919884548947	organizer	4	\N	sent	\N	2026-05-08 08:35:59.965+00	0	711	t	\N	\N
+3889b8b1-fa21-4127-82c4-39669d7b2f4a	\N	VIP	0	booked	Anand	2026-05-08 08:53:32.466671+00	Arun	+919994818495	organizer	8	\N	sent	\N	2026-05-08 08:53:34.533+00	0	712	t	\N	26
+e9311de8-cfda-404f-a354-fdd9500593fd	\N	VIP	0	booked	Beschi	2026-05-08 08:54:18.830376+00	Arun	+917598247219	organizer	1	\N	sent	\N	2026-05-08 09:02:07.126+00	0	713	t	\N	27
+57f89fcc-e850-4e68-8c56-6e04ccdbdbab	\N	Platinum	500	booked	Sukanya	2026-05-08 09:29:03.992649+00	Aysh	+916381395072	organizer	1	\N	sent	\N	2026-05-08 09:29:05.358+00	0	714	t	\N	\N
+50c0a773-3bda-45f7-819e-49e6778647fb	\N	Donor	1000	booked	Bhuvaneshwari	2026-05-08 09:30:47.498038+00	Aysh	+919443380436	organizer	1	\N	sent	\N	2026-05-08 09:30:48.429+00	0	715	t	\N	\N
+12cf8895-fd68-4359-a4ec-bc82e08a87d8	\N	Donor	1000	booked	Rajeshwari	2026-05-08 09:31:27.568411+00	Aysh	+919884099043	organizer	1	\N	sent	\N	2026-05-08 09:31:28.26+00	0	716	t	\N	\N
+06749814-2d73-46df-9f61-c8161ea6ae01	\N	Donor	1000	booked	Kavya	2026-05-08 09:37:09.703292+00	Aysh	+919840471503	organizer	1	\N	sent	\N	2026-05-08 09:37:11.106+00	0	717	t	\N	\N
+d72e949e-1913-46c0-9d75-1d5641216fbe	\N	Donor	1000	booked	Eshwari	2026-05-08 09:41:12.178849+00	Aysh	+919003507266	organizer	1	\N	sent	\N	2026-05-08 09:41:12.999+00	0	718	t	\N	\N
+f73d7ae0-988d-4f45-a7a4-a2afea62bf95	\N	Platinum	500	booked	Uma	2026-05-08 09:57:03.700324+00	Aysh	+919940668487	organizer	1	\N	sent	\N	2026-05-08 09:57:05.273+00	0	719	t	\N	\N
+8e554563-2a83-4056-b3af-def83833ec06	\N	Platinum	500	booked	Karthik	2026-05-08 10:23:36.592517+00	Someesh	+919087727294	organizer	1	\N	sent	\N	2026-05-08 10:23:37.857+00	0	720	t	\N	\N
+41a3fe85-6448-4ac1-acda-8034a7941c37	\N	Donor	1000	booked	Laalitya s	2026-05-08 10:43:27.902246+00	Preetha	+918884585042	trust	1	649415096496	sent	\N	2026-05-08 10:43:29.505+00	0	721	t	\N	\N
+3dde4d94-d28a-4d6b-8172-0cf0fe3e35bf	\N	Donor	1000	booked	Chitra ragu	2026-05-08 10:45:12.818665+00	Preetha	+918608487689	trust	1	122791538730	sent	\N	2026-05-08 10:46:14.333+00	0	722	t	\N	\N
+92db0fc2-9adc-4f1b-b269-4763fd8e4dba	\N	Platinum	500	booked	Mr. Selvanathan	2026-05-08 11:22:05.014336+00	Bala	+917418670070	trust	1	T2605081648489200665506	sent	\N	2026-05-08 11:22:06.746+00	0	723	t	\N	\N
+89825498-5d3a-4697-83b7-e0cd8e3a582d	\N	Donor	1000	booked	Cynthia	2026-05-08 11:33:09.431629+00	Jenny	+919791769073	organizer	5	\N	sent	\N	2026-05-08 11:33:10.371+00	0	724	t	\N	\N
+9df72444-6d79-4860-aa89-5b87bf95d3ed	\N	Platinum	500	booked	Ms. Emora mercy	2026-05-08 11:35:30.189172+00	Bala	+916381825009	trust	5	612856281704	sent	\N	2026-05-08 11:35:30.985+00	0	725	t	\N	\N
+5f6c7314-04bf-4425-99c6-6959c503754c	\N	Donor	1000	booked	Arun	2026-05-08 11:36:24.056432+00	Jenny	+917010438848	organizer	5	\N	sent	\N	2026-05-08 11:36:24.867+00	0	726	t	\N	\N
+716b6803-77bb-4f92-99c9-a48b793f757a	\N	Donor	1000	booked	Karunya	2026-05-08 11:36:45.654912+00	Jenny	+919962083202	organizer	5	\N	sent	\N	2026-05-08 11:36:46.428+00	0	727	t	\N	\N
+d3aaf55c-d26a-4f04-8b7e-0358f0d72954	\N	Donor	1000	booked	Satheesh	2026-05-08 11:37:16.014931+00	Jenny	+917418631345	organizer	2	\N	sent	\N	2026-05-08 11:37:16.753+00	0	728	t	\N	\N
+6817baf4-d5ce-4850-a4fe-0580a44d559d	\N	Donor	1000	booked	Kanchana	2026-05-08 11:37:42.035346+00	Jenny	+919629196167	organizer	2	\N	sent	\N	2026-05-08 11:37:42.76+00	0	729	t	\N	\N
+e5b039e2-512d-4374-af8b-84f46af907e6	\N	Donor	1000	booked	Aishwarya	2026-05-08 11:38:06.843577+00	Jenny	+918148920120	organizer	1	\N	sent	\N	2026-05-08 11:38:07.633+00	0	730	t	\N	\N
+ac9fe176-d969-4412-8a27-85418640c4cb	\N	Donor	1000	booked	Soundarya	2026-05-08 11:38:28.747806+00	Jenny	+919965855975	organizer	1	\N	sent	\N	2026-05-08 11:38:29.561+00	0	731	t	\N	\N
+e98bf8b3-2100-4a3b-8889-fd988a4e6877	\N	Donor	1000	booked	Sreeja	2026-05-08 11:38:52.259512+00	Jenny	+918111066404	organizer	1	\N	sent	\N	2026-05-08 11:38:53.06+00	0	732	t	\N	\N
+ef812c84-d3b8-4f8d-8bd4-b1a6de39a390	\N	Platinum	500	booked	Arun Kumar N	2026-05-08 13:15:00.813761+00	Christy	+919500373157	organizer	1	\N	sent	\N	2026-05-08 13:15:01.806+00	0	733	t	\N	\N
+4138ab5f-cd25-472c-a232-860dc97633a8	\N	Donor	1000	booked	Gayathiri Vijay	2026-05-08 13:15:17.393851+00	Christy	+919600132046	organizer	1	\N	sent	\N	2026-05-08 13:15:18.182+00	0	734	t	\N	\N
+f72fc432-e640-4ea7-a8a8-9c1451763b14	\N	VIP	0	booked	Prabhu Govindan 	2026-05-08 14:04:32.595687+00	Arun	+919500133555	organizer	6	\N	sent	\N	2026-05-08 14:04:34.557+00	0	735	t	\N	28
+4f2d96b9-a453-4949-a995-aa4fe9bdb400	\N	Donor	1000	booked	Dr Shanmugamsundar	2026-05-08 14:06:14.58305+00	Arun	+919566123547	trust	1	1	sent	\N	2026-05-08 14:06:15.612+00	0	736	t	\N	\N
+5aad44cf-3167-4811-9082-4a21e6357069	\N	Platinum	500	booked	Mirunalini 	2026-05-08 14:50:13.11247+00	Jessita	+919500063698	organizer	2	\N	sent	\N	2026-05-08 14:50:14.709+00	0	737	t	\N	\N
+4a1a5e01-8f76-4205-9b1e-7ad42f217974	\N	VIP	0	booked	Sameedha	2026-05-08 15:16:54.501801+00	Jeba	+919444030550	organizer	2	\N	sent	\N	2026-05-08 15:16:56.683+00	0	738	t	\N	29
+c7f7fcf6-15ff-4456-9653-40436818797b	\N	VIP	0	booked	Ratheesh 	2026-05-08 15:19:11.038856+00	Arun	+919884717148	organizer	4	\N	sent	\N	2026-05-08 15:19:12.997+00	0	739	t	\N	30
+76acea2e-d7c7-456b-bb01-1adfa7f92c4a	\N	Student	200	booked	A s kamali	2026-05-08 15:23:27.754125+00	Preetha	+919600184621	trust	2	612863646804	sent	\N	2026-05-08 15:23:28.404+00	0	741	t	\N	\N
+6cc12bea-8484-4b62-b900-c19a7606ee42	\N	Platinum	500	booked	Manisha	2026-05-08 15:29:40.35209+00	Preetha	+917358581365	trust	1	612874989111	sent	\N	2026-05-08 15:29:41.256+00	0	742	t	\N	\N
+75a0be6d-96e3-4775-97b6-f4518f0b5d59	\N	Platinum	500	booked	Ramya	2026-05-08 15:42:44.68255+00	Vishwa	+919688224935	trust	9	612828815582	sent	\N	2026-05-08 15:42:44.82+00	0	743	t	\N	\N
+7bc4b68c-ac91-4099-bbe3-dc1585128314	\N	Platinum	500	booked	Amisha R Khimani	2026-05-08 15:44:32.163013+00	Vishwa	+919445373150	trust	1	109771917262	sent	\N	2026-05-08 15:44:32.406+00	0	744	t	\N	\N
+9e7335f5-f299-4ce8-8754-c7f3a6fd4d9d	\N	Platinum	500	booked	A s kamali	2026-05-08 15:22:58.245467+00	Preetha	+919600184621	trust	2	612863646804	sent	\N	2026-05-08 15:44:55.949+00	0	740	t	\N	\N
+e1551507-2006-4bbc-9f7e-751b76134815	\N	VIP	0	booked	Jayanthi	2026-05-08 15:46:58.23768+00	Aysh	+919962671650	organizer	1	\N	sent	\N	2026-05-08 15:46:59.462+00	0	745	t	\N	31
+d1be312a-390a-48ef-9266-75b754d316e3	\N	VIP	0	booked	Suganya	2026-05-08 15:47:22.721644+00	Aysh	+916381395072	organizer	2	\N	sent	\N	2026-05-08 15:47:24.243+00	0	746	t	\N	32
+01d365ee-43bc-4539-b116-67df75ae1541	\N	Platinum	500	booked	Kavitha	2026-05-08 15:52:44.796201+00	Aysh	+919962177566	organizer	6	\N	sent	\N	2026-05-08 15:52:45.586+00	0	747	t	\N	\N
+0c3f6880-48d2-4a19-a8a1-6fcbaaec6d31	\N	Donor	1000	booked	Dharani sanjay	2026-05-08 16:54:56.546637+00	Someesh	+918072585192	organizer	1	\N	sent	\N	2026-05-08 16:54:57.116+00	0	748	t	\N	\N
+e61fc65f-c274-4304-aea0-1c2a851b1e4d	\N	VIP	0	booked	Thangam	2026-05-08 17:43:54.056826+00	Vishwa	+918680001776	organizer	3	\N	sent	\N	2026-05-08 17:43:56.468+00	0	749	t	\N	33
+3ee03e7c-2df8-4367-98c6-87c09baab363	\N	Platinum	500	booked	Chandra Kala	2026-05-08 17:45:08.807056+00	Vishwa	+917823989073	trust	1	908556529839	sent	\N	2026-05-08 17:45:08.762+00	0	750	t	\N	\N
+f48969d7-371a-49c4-ba65-9390a8aeabdd	\N	Donor	1000	booked	Mahendran	2026-05-09 02:22:47.142704+00	Someesh	+917738042757	organizer	1	\N	sent	\N	2026-05-09 02:22:48.45+00	0	751	t	\N	\N
+603c6354-8ca9-4ad0-9fb4-df6f9d51f155	\N	Donor	1000	booked	Mahendran	2026-05-09 02:23:44.111565+00	Someesh	+917738042757	organizer	1	\N	sent	\N	2026-05-09 02:23:45.181+00	0	752	t	\N	\N
+19d004b3-cafe-4ba3-84c8-b3985f77f515	\N	Platinum	500	booked	Mrs and Mr Madhu	2026-04-24 06:18:00.895479+00	Vishwa	+919790974498	organizer	2	\N	sent	\N	2026-05-09 02:23:58.195+00	0	147	t	\N	\N
+4ee5be14-b9f3-4779-8a25-93fc33dc1044	\N	Platinum	500	booked	Pradeep Niranjan 	2026-05-05 09:51:47.991627+00	Arun	+919952035679	organizer	4	\N	sent	\N	2026-05-09 02:41:53.93+00	0	475	t	\N	\N
+cda1e5e7-2385-4a25-8a89-b30fc7cb8644	\N	Platinum	500	booked	Ravi kumar 	2026-05-09 02:48:36.286958+00	Arun	+919840430203	trust	1	109767439992	sent	\N	2026-05-09 02:48:37.85+00	0	753	t	\N	\N
 \.
 
 
@@ -901,7 +994,6 @@ c2389e7b-0ff5-427d-8f1c-ff0ad150364b	\N	VIP	0	booked	Prabhu	2026-05-07 21:04:16.
 --
 
 COPY "public"."ticket_checkins" ("id", "ticket_id", "count", "checked_in_name", "staff_name", "created_at") FROM stdin;
-0bb2552c-af01-4d0d-ad1b-32ffe370e764	736f507c-8430-4690-b719-775645059443	1	Saravanan	\N	2026-05-07 19:31:18.635772+00
 \.
 
 
@@ -972,20 +1064,20 @@ SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 1, false);
 -- Name: tickets_sequence_number_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."tickets_sequence_number_seq"', 660, true);
+SELECT pg_catalog.setval('"public"."tickets_sequence_number_seq"', 753, true);
 
 
 --
 -- Name: vip_ticket_sequence; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."vip_ticket_sequence"', 24, true);
+SELECT pg_catalog.setval('"public"."vip_ticket_sequence"', 33, true);
 
 
 --
 -- PostgreSQL database dump complete
 --
 
--- \unrestrict Mzwo4DM4YLqS5YsLmBErnjTrWufFwSBNfRt5V2GCsdfNe4tJsPrW3eCmDe40kv2
+-- \unrestrict tvydZ0adONrzMdiD1zhQmGRHECwdz6ucVRIhl0pEGHDcbuCcfNBstQeml16zrMy
 
 RESET ALL;
