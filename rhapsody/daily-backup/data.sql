@@ -4,7 +4,7 @@ SET session_replication_role = replica;
 -- PostgreSQL database dump
 --
 
--- \restrict gZ96m3RsVENwRah2sSEzhWxnS7PQQP0PM3yxtORMQ6PiBkJNFVZqwHBzwxNlSXq
+-- \restrict 5YmT8dNv7e9U5kBf6nB0xPwHOnieW2pDgWE4O1xu2cP3kteTNn8wVfpjgOCsw8n
 
 -- Dumped from database version 17.6
 -- Dumped by pg_dump version 17.6
@@ -833,7 +833,6 @@ e17864b3-4834-4de4-a432-9e2f72052446	\N	Donor	1000	booked	Sreelata Mukerjee	2026
 75e05f21-3c8d-4f40-98ff-981b2e9b3ffd	\N	Platinum	500	booked	Rahul	2026-05-07 20:44:28.828558+00	Afrin	+919360415167	organizer	3	\N	sent	\N	2026-05-07 20:44:29.462+00	0	636	t	\N	\N
 9213e98a-3378-4e05-85a4-c7942a97bb08	\N	Platinum	500	booked	Saritha	2026-05-07 18:49:06.183625+00	Arun	+919840557490	trust	1	RCG Global	sent	\N	2026-05-07 18:49:06.905+00	0	609	t	\N	\N
 9a0befb3-7420-4fe3-a87b-f896da301b5f	\N	Platinum	500	booked	Jaya Janani	2026-05-07 18:49:06.40487+00	Arun	+919843185144	trust	1	RCG Global	sent	\N	2026-05-07 18:49:07.159+00	0	611	t	\N	\N
-39f27f2c-472f-4ba7-94ac-e22bd5ba4cfa	\N	VIP	0	booked	Louis	2026-05-07 20:52:38.26451+00	Jenny	+919486102309	organizer	2	\N	sent	\N	2026-05-07 20:52:39.034+00	0	639	t	\N	6
 c450f118-a21a-4278-acd7-085776dd0dfe	\N	Platinum	500	booked	Subhrajeet Raika	2026-05-07 18:49:06.71446+00	Arun	+917008865524	trust	1	RCG Global	sent	\N	2026-05-07 18:49:07.543+00	0	613	t	\N	\N
 593fe1f4-f498-47fe-a1c8-df394bfd697c	\N	Platinum	500	booked	Arun	2026-05-07 18:49:06.899081+00	Arun	+919952223147	trust	1	RCG Global	sent	\N	2026-05-07 18:49:07.694+00	0	615	t	\N	\N
 8921bff4-b503-4cb7-adda-0195f2d2b653	\N	Platinum	500	booked	Kalaiselvi S	2026-05-07 18:49:07.012318+00	Arun	+917806972475	trust	1	RCG Global	sent	\N	2026-05-07 18:49:07.759+00	0	616	t	\N	\N
@@ -862,6 +861,7 @@ cdb94352-8ef6-4737-9b1b-e2516170f862	\N	Platinum	500	checked_in	Keerthana	2026-0
 20478630-5ef8-4c65-8eda-af80ca8c28f0	\N	VIP	0	checked_in	Santhosh Kumar	2026-05-07 20:55:03.567657+00	Yuva	+919843911151	organizer	1	\N	sent	\N	2026-05-07 20:55:04.34+00	1	644	t	\N	11
 6493576a-411a-4b8b-ac9d-306439634611	\N	Platinum	500	checked_in	Pavithra	2026-05-07 20:35:18.021887+00	Afrin	+918248283528	organizer	1	\N	sent	\N	2026-05-07 20:35:18.738+00	1	634	t	\N	\N
 7b5995b3-a31d-4afd-975b-78220cdc80e7	\N	VIP	0	checked_in	Vinoth K	2026-05-07 20:54:24.113568+00	Yuva	+919840956000	organizer	9	\N	sent	\N	2026-05-07 20:54:25.02+00	9	642	t	\N	9
+39f27f2c-472f-4ba7-94ac-e22bd5ba4cfa	\N	VIP	0	checked_in	Louis	2026-05-07 20:52:38.26451+00	Jenny	+919486102309	organizer	2	\N	sent	\N	2026-05-07 20:52:39.034+00	2	639	t	\N	6
 3186931d-dd77-443e-ac76-571f8b537df4	\N	VIP	0	booked	Graciana	2026-05-07 20:55:33.588731+00	Jenny	+917045502812	organizer	4	\N	sent	\N	2026-05-08 08:43:52.702+00	0	645	t	\N	12
 51e43be0-c6dd-410e-88d9-ec6f0cb2af50	\N	VIP	0	booked	Shalini Robert	2026-05-07 20:55:52.396371+00	Arun	+919841800293	organizer	4	\N	sent	\N	2026-05-08 08:44:01.98+00	2	646	t	\N	13
 cab5bcdf-e76d-44fb-a664-8b54cc5f2a0e	\N	VIP	0	booked	Yogesh	2026-05-07 20:56:19.290821+00	Babitha	+919940520862	organizer	15	\N	sent	\N	2026-05-07 20:56:19.991+00	0	647	t	\N	14
@@ -990,6 +990,7 @@ e1551507-2006-4bbc-9f7e-751b76134815	\N	VIP	0	checked_in	Jayanthi	2026-05-08 15:
 63d887c8-eb10-4a76-905a-c0e4b5d06cfe	\N	VIP	0	booked	Sekar	2026-05-09 05:57:55.386039+00	Christy	+919380022773	organizer	3	\N	sent	\N	2026-05-09 05:57:56.868+00	0	768	t	\N	39
 9eb3ac63-d934-4c40-9fe5-66c0bd4e132b	\N	VIP	0	booked	Uravugal Trust	2026-05-09 06:00:00.477519+00	Christy	+918056205080	organizer	3	\N	sent	\N	2026-05-09 06:00:01.595+00	0	769	t	\N	40
 68b0a344-63d7-45a3-9a0f-c8facc6142d5	\N	VIP	0	booked	Vijay	2026-05-09 07:34:56.425851+00	Christy	+919791162626	organizer	2	\N	sent	\N	2026-05-09 07:34:57.612+00	0	773	t	\N	43
+76e09128-014e-40c3-bb8d-0240450ee35a	\N	Donor	1000	booked	Joel Vellangani	2026-05-10 10:00:42.764053+00	Vishwa	+918805054948	trust	1	084039392846	sent	\N	2026-05-10 10:00:43.244+00	0	776	t	\N	\N
 68cbc9d2-fa7b-43a9-abee-70852f95f2fb	\N	Platinum	500	checked_in	Sanjay	2026-05-06 14:28:05.098412+00	Someesh	+918807293782	organizer	1	\N	sent	\N	2026-05-06 14:28:06.613+00	1	531	t	\N	\N
 12428d25-1821-4b3c-b4a6-8cdb9d580f88	\N	Platinum	500	checked_in	Aadhira	2026-05-04 18:03:08.207743+00	Afrin	+919962605229	organizer	3	\N	sent	\N	2026-05-04 18:03:08.723+00	3	442	t	\N	\N
 24935424-617b-481a-8f7a-9c01f5188620	\N	Platinum	500	checked_in	Sudhakar	2026-04-21 01:55:01.878538+00	Jenny	+919884057207	organizer	1	\N	sent	\N	2026-04-21 01:55:03.408+00	1	53	t	\N	\N
@@ -1008,6 +1009,7 @@ a794f4ab-430a-4110-bd54-5656bdb361c5	\N	Platinum	500	checked_in	Chandra kala	202
 1e3700fb-666c-43a9-9797-2b0b2af7e343	\N	Platinum	500	checked_in	Santhosh	2026-04-21 10:33:18.260211+00	Christy	+919442581114	organizer	2	\N	sent	\N	2026-05-09 07:41:20.967+00	2	77	t	\N	\N
 060e5559-afff-4635-b576-4537f47bbf3f	\N	Platinum	500	checked_in	Jsyashree	2026-05-07 10:05:02.972982+00	Yuva	+918754493140	organizer	6	\N	sent	\N	2026-05-07 10:05:04.714+00	6	568	t	\N	\N
 15ac1801-2f4b-425e-922e-d98909bcfe91	\N	VIP	0	checked_in	Diya Foundation	2026-05-09 06:08:18.70263+00	Christy	+919791162626	organizer	4	\N	sent	\N	2026-05-09 07:37:15.477+00	4	770	t	\N	41
+3d7f550a-b834-4f2d-a34f-a72fda52c4ce	\N	Donor	1000	booked	Joe	2026-05-10 13:21:04.071068+00	Jenny	+919894289459	organizer	5	\N	sent	\N	2026-05-10 13:21:06.183+00	0	777	t	\N	\N
 75a0be6d-96e3-4775-97b6-f4518f0b5d59	\N	Platinum	500	checked_in	Ramya	2026-05-08 15:42:44.68255+00	Vishwa	+919688224935	trust	9	612828815582	sent	\N	2026-05-08 15:42:44.82+00	9	743	t	\N	\N
 00010256-1861-41d0-ae8a-234a144b72c6	\N	Platinum	500	booked	Pandiyan	2026-05-06 10:52:22.88913+00	Ramya	+919551201023	trust	5	612621648484	sent	\N	2026-05-06 10:52:24.069+00	3	516	t	\N	\N
 784914a1-f918-4219-8cfc-a64d64df87ad	\N	Platinum	500	checked_in	Vinoth K	2026-05-01 05:25:25.683255+00	Yuva	+919840956000	organizer	9	\N	sent	\N	2026-05-01 05:25:27.8+00	9	312	t	\N	\N
@@ -1325,6 +1327,7 @@ e74b5f84-ac67-42e2-92fb-29d328e29a34	0cbc8dc6-fe55-428e-9bbd-4279b0ac4af5	1	Raj 
 97c890f4-bc8c-434a-b9d3-f6e003a43a5e	06922c2b-c72d-424d-b387-bd2f9fb07f13	2	Vignesh	\N	2026-05-09 14:13:25.570264+00
 f06d79f1-4540-4672-8182-e685d6dd1582	1e28337f-0f5f-4b33-ba3d-2c051540bae8	2	Adithya	\N	2026-05-09 14:13:34.053993+00
 426a8786-5738-4b52-b1d7-96d23ecee441	37c0c1d6-d1d6-4a93-a703-8245e9b236d1	1	Adithya	\N	2026-05-09 14:13:46.058077+00
+55267282-afa6-49c4-8317-8b9a8595e320	39f27f2c-472f-4ba7-94ac-e22bd5ba4cfa	2	Louis	\N	2026-05-10 06:33:12.380774+00
 \.
 
 
@@ -1395,7 +1398,7 @@ SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 1, false);
 -- Name: tickets_sequence_number_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."tickets_sequence_number_seq"', 775, true);
+SELECT pg_catalog.setval('"public"."tickets_sequence_number_seq"', 777, true);
 
 
 --
@@ -1409,6 +1412,6 @@ SELECT pg_catalog.setval('"public"."vip_ticket_sequence"', 44, true);
 -- PostgreSQL database dump complete
 --
 
--- \unrestrict gZ96m3RsVENwRah2sSEzhWxnS7PQQP0PM3yxtORMQ6PiBkJNFVZqwHBzwxNlSXq
+-- \unrestrict 5YmT8dNv7e9U5kBf6nB0xPwHOnieW2pDgWE4O1xu2cP3kteTNn8wVfpjgOCsw8n
 
 RESET ALL;
