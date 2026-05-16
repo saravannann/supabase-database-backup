@@ -53,72 +53,255 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA "extensions";
 
 
 CREATE OR REPLACE FUNCTION "public"."get_admin_dashboard_data"("p_date_filter" "text" DEFAULT 'All Time'::"text", "p_type_filter" "text" DEFAULT 'All Types'::"text", "p_org_filter" "text" DEFAULT 'All Organisers'::"text", "p_funds_filter" "text" DEFAULT 'All Destinations'::"text") RETURNS json
-    LANGUAGE "plpgsql" SECURITY DEFINER
+    LANGUAGE "plpgsql"
     AS $$
 DECLARE
-  v_result JSON;
-  v_start_date TIMESTAMP;
+  v_start_date TIMESTAMP WITH TIME ZONE;
+  v_metrics JSON;
+  v_leaderboard JSON;
+  v_chart_data JSON;
+  v_whatsapp JSON;
 BEGIN
-  IF p_date_filter = 'Today' THEN v_start_date := CURRENT_DATE;
-  ELSIF p_date_filter = 'Last 7 Days' THEN v_start_date := CURRENT_DATE - INTERVAL '7 days';
-  ELSIF p_date_filter = 'This Month' THEN v_start_date := DATE_TRUNC('month', CURRENT_DATE);
-  ELSE v_start_date := '-infinity'::TIMESTAMP;
+  -- 1. Determine Start Date based on filter
+  IF p_date_filter = 'Today' THEN
+    v_start_date := CURRENT_DATE;
+  ELSIF p_date_filter = 'Last 7 Days' THEN
+    v_start_date := NOW() - INTERVAL '7 days';
+  ELSIF p_date_filter = 'This Month' THEN
+    v_start_date := DATE_TRUNC('month', NOW());
+  ELSE
+    v_start_date := '1970-01-01'::TIMESTAMP WITH TIME ZONE;
   END IF;
 
+  -- 2. Calculate Metrics
   WITH filtered_tickets AS (
     SELECT * FROM tickets
     WHERE created_at >= v_start_date
       AND (p_type_filter = 'All Types' OR type = p_type_filter)
-      AND (p_org_filter = 'All Organisers' OR sold_by = p_org_filter)
+      AND (p_org_filter = 'All Organisers' OR sold_by ILIKE p_org_filter)
       AND (p_funds_filter = 'All Destinations' OR funds_destination = LOWER(p_funds_filter))
-  ),
-  overall_metrics AS (
-    SELECT
-      COALESCE(SUM(price * quantity), 0) as total_revenue,
-      COALESCE(SUM(CASE WHEN funds_destination = 'trust' THEN price * quantity ELSE 0 END), 0) as trust_revenue,
-      COALESCE(SUM(CASE WHEN funds_destination = 'organizer' THEN price * quantity ELSE 0 END), 0) as organizer_revenue,
-      COALESCE(SUM(quantity), 0) as total_tickets,
-      COALESCE(SUM(CASE WHEN status != 'cancelled' AND (type ILIKE '%Platinum%' OR type ILIKE '%Student%') AND type NOT ILIKE '%Donor%' THEN quantity ELSE 0 END), 0) as scannable_tickets,
-      COALESCE(SUM(CASE WHEN status = 'checked_in' AND (type ILIKE '%Platinum%' OR type ILIKE '%Student%') AND type NOT ILIKE '%Donor%' THEN quantity ELSE 0 END), 0) as checked_in,
-      COALESCE(SUM(CASE WHEN status = 'cancelled' THEN quantity ELSE 0 END), 0) as cancelled_count
-    FROM filtered_tickets
-  ),
-  whatsapp_stats AS (
-    SELECT
-      COALESCE(COUNT(*) FILTER (WHERE whatsapp_status = 'sent'), 0) as sent,
-      COALESCE(COUNT(*) FILTER (WHERE whatsapp_status = 'failed'), 0) as failed,
-      COALESCE(COUNT(*) FILTER (WHERE whatsapp_status IS NULL OR whatsapp_status = 'not_sent'), 0) as not_sent
-    FROM filtered_tickets
-  ),
-  chart_data AS (
-    SELECT type as name, SUM(quantity) as sold, SUM(price * quantity) as revenue
-    FROM filtered_tickets GROUP BY type
-  ),
-  leaderboard AS (
-    SELECT
-      sold_by as name,
-      COALESCE(SUM(CASE WHEN type ILIKE '%Platinum%' THEN quantity ELSE 0 END), 0) as platinum,
-      COALESCE(SUM(CASE WHEN type ILIKE '%Donor%' THEN quantity ELSE 0 END), 0) as donor,
-      COALESCE(SUM(CASE WHEN type ILIKE '%Student%' THEN quantity ELSE 0 END), 0) as student,
-      COALESCE(SUM(CASE WHEN type = 'VIP' THEN quantity ELSE 0 END), 0) as vip,
-      COALESCE(SUM(quantity), 0) as total,
-      COALESCE(SUM(price * quantity), 0) as revenue
-    FROM filtered_tickets
-    WHERE sold_by IS NOT NULL GROUP BY sold_by
   )
   SELECT json_build_object(
-    'metrics', (SELECT row_to_json(overall_metrics.*) FROM overall_metrics),
-    'whatsapp', (SELECT row_to_json(whatsapp_stats.*) FROM whatsapp_stats),
-    'chart_data', (SELECT json_agg(chart_data.*) FROM chart_data),
-    'leaderboard', (SELECT json_agg(leaderboard.*) FROM leaderboard)
-  ) INTO v_result;
+    'total_revenue', COALESCE(SUM(CASE WHEN status != 'cancelled' THEN price * quantity ELSE 0 END), 0),
+    'trust_revenue', COALESCE(SUM(CASE WHEN status != 'cancelled' AND funds_destination = 'trust' THEN price * quantity ELSE 0 END), 0),
+    'organizer_revenue', COALESCE(SUM(CASE WHEN status != 'cancelled' AND funds_destination = 'organizer' THEN price * quantity ELSE 0 END), 0),
+    'total_tickets', COALESCE(SUM(CASE WHEN status != 'cancelled' THEN quantity ELSE 0 END), 0),
+    'scannable_tickets', COALESCE(SUM(CASE WHEN status != 'cancelled' AND type NOT ILIKE '%donor%' THEN quantity ELSE 0 END), 0),
+    'checked_in', COALESCE(SUM(CASE WHEN status != 'cancelled' AND type NOT ILIKE '%donor%' THEN checked_in_count ELSE 0 END), 0),
+    'cancelled_count', COALESCE(SUM(CASE WHEN status = 'cancelled' THEN quantity ELSE 0 END), 0)
+  ) INTO v_metrics
+  FROM filtered_tickets;
 
-  RETURN v_result;
+  -- 3. Leaderboard Data (Updated to include checked-in counts)
+  WITH filtered_tickets AS (
+    SELECT * FROM tickets
+    WHERE created_at >= v_start_date
+      AND (p_type_filter = 'All Types' OR type = p_type_filter)
+      AND (p_org_filter = 'All Organisers' OR sold_by ILIKE p_org_filter)
+      AND (p_funds_filter = 'All Destinations' OR funds_destination = LOWER(p_funds_filter))
+  )
+  SELECT json_agg(t) INTO v_leaderboard
+  FROM (
+    SELECT 
+      sold_by as name,
+      -- Totals for non-cancelled
+      COALESCE(SUM(CASE WHEN status != 'cancelled' THEN quantity ELSE 0 END), 0) as total,
+      COALESCE(SUM(CASE WHEN status != 'cancelled' THEN price * quantity ELSE 0 END), 0) as revenue,
+      COALESCE(SUM(CASE WHEN status != 'cancelled' THEN checked_in_count ELSE 0 END), 0) as total_checked,
+      
+      -- Platinum
+      COALESCE(SUM(CASE WHEN status != 'cancelled' AND type = 'Platinum' THEN quantity ELSE 0 END), 0) as platinum,
+      COALESCE(SUM(CASE WHEN status != 'cancelled' AND type = 'Platinum' THEN checked_in_count ELSE 0 END), 0) as platinum_checked,
+      
+      -- Donor
+      COALESCE(SUM(CASE WHEN status != 'cancelled' AND type = 'Donor' THEN quantity ELSE 0 END), 0) as donor,
+      COALESCE(SUM(CASE WHEN status != 'cancelled' AND type = 'Donor' THEN checked_in_count ELSE 0 END), 0) as donor_checked,
+      
+      -- Student
+      COALESCE(SUM(CASE WHEN status != 'cancelled' AND type = 'Student' THEN quantity ELSE 0 END), 0) as student,
+      COALESCE(SUM(CASE WHEN status != 'cancelled' AND type = 'Student' THEN checked_in_count ELSE 0 END), 0) as student_checked,
+      
+      -- VIP
+      COALESCE(SUM(CASE WHEN status != 'cancelled' AND type = 'VIP' THEN quantity ELSE 0 END), 0) as vip,
+      COALESCE(SUM(CASE WHEN status != 'cancelled' AND type = 'VIP' THEN checked_in_count ELSE 0 END), 0) as vip_checked
+    FROM filtered_tickets
+    WHERE sold_by IS NOT NULL
+    GROUP BY sold_by
+    ORDER BY total DESC
+  ) t;
+
+  -- 4. Chart Data
+  WITH filtered_tickets AS (
+    SELECT * FROM tickets
+    WHERE created_at >= v_start_date
+      AND (p_type_filter = 'All Types' OR type = p_type_filter)
+      AND (p_org_filter = 'All Organisers' OR sold_by ILIKE p_org_filter)
+      AND (p_funds_filter = 'All Destinations' OR funds_destination = LOWER(p_funds_filter))
+  )
+  SELECT json_agg(t) INTO v_chart_data
+  FROM (
+    SELECT 
+      type as name,
+      COALESCE(SUM(CASE WHEN status != 'cancelled' THEN quantity ELSE 0 END), 0) as sold,
+      COALESCE(SUM(CASE WHEN status != 'cancelled' THEN checked_in_count ELSE 0 END), 0) as checked_in,
+      COALESCE(SUM(CASE WHEN status != 'cancelled' THEN price * quantity ELSE 0 END), 0) as revenue
+    FROM filtered_tickets
+    GROUP BY type
+    ORDER BY sold DESC
+  ) t;
+
+  -- 5. WhatsApp Stats
+  WITH filtered_tickets AS (
+    SELECT * FROM tickets
+    WHERE created_at >= v_start_date
+      AND (p_type_filter = 'All Types' OR type = p_type_filter)
+      AND (p_org_filter = 'All Organisers' OR sold_by ILIKE p_org_filter)
+      AND (p_funds_filter = 'All Destinations' OR funds_destination = LOWER(p_funds_filter))
+  )
+  SELECT json_build_object(
+    'sent', COALESCE(COUNT(*) FILTER (WHERE whatsapp_status = 'sent'), 0),
+    'failed', COALESCE(COUNT(*) FILTER (WHERE whatsapp_status = 'failed'), 0),
+    'not_sent', COALESCE(COUNT(*) FILTER (WHERE whatsapp_status IS NULL OR whatsapp_status = 'not_sent'), 0)
+  ) INTO v_whatsapp
+  FROM filtered_tickets;
+
+  -- Return final consolidated JSON
+  RETURN json_build_object(
+    'metrics', v_metrics,
+    'leaderboard', COALESCE(v_leaderboard, '[]'::json),
+    'chart_data', COALESCE(v_chart_data, '[]'::json),
+    'whatsapp', v_whatsapp
+  );
 END;
 $$;
 
 
 ALTER FUNCTION "public"."get_admin_dashboard_data"("p_date_filter" "text", "p_type_filter" "text", "p_org_filter" "text", "p_funds_filter" "text") OWNER TO "postgres";
+
+
+CREATE OR REPLACE FUNCTION "public"."get_admin_dashboard_data"("p_date_filter" "text" DEFAULT 'All Time'::"text", "p_type_filter" "text" DEFAULT 'All Types'::"text", "p_org_filter" "text" DEFAULT 'All Organisers'::"text", "p_funds_filter" "text" DEFAULT 'All Destinations'::"text", "p_event_id" "uuid" DEFAULT NULL::"uuid") RETURNS json
+    LANGUAGE "plpgsql"
+    AS $$
+DECLARE
+  v_start_date TIMESTAMP WITH TIME ZONE;
+  v_metrics JSON;
+  v_leaderboard JSON;
+  v_chart_data JSON;
+  v_whatsapp JSON;
+BEGIN
+  -- 1. Determine Start Date based on filter
+  IF p_date_filter = 'Today' THEN
+    v_start_date := CURRENT_DATE;
+  ELSIF p_date_filter = 'Last 7 Days' THEN
+    v_start_date := NOW() - INTERVAL '7 days';
+  ELSIF p_date_filter = 'This Month' THEN
+    v_start_date := DATE_TRUNC('month', NOW());
+  ELSE
+    v_start_date := '1970-01-01'::TIMESTAMP WITH TIME ZONE;
+  END IF;
+
+  -- 2. Calculate Metrics
+  WITH filtered_tickets AS (
+    SELECT * FROM tickets
+    WHERE (p_event_id IS NULL OR event_id = p_event_id)
+      AND created_at >= v_start_date
+      AND (p_type_filter = 'All Types' OR type = p_type_filter)
+      AND (p_org_filter = 'All Organisers' OR sold_by ILIKE p_org_filter)
+      AND (p_funds_filter = 'All Destinations' OR funds_destination = LOWER(p_funds_filter))
+  )
+  SELECT json_build_object(
+    'total_revenue', COALESCE(SUM(CASE WHEN status != 'cancelled' THEN price * quantity ELSE 0 END), 0),
+    'trust_revenue', COALESCE(SUM(CASE WHEN status != 'cancelled' AND funds_destination = 'trust' THEN price * quantity ELSE 0 END), 0),
+    'organizer_revenue', COALESCE(SUM(CASE WHEN status != 'cancelled' AND funds_destination = 'organizer' THEN price * quantity ELSE 0 END), 0),
+    'total_tickets', COALESCE(SUM(CASE WHEN status != 'cancelled' THEN quantity ELSE 0 END), 0),
+    'scannable_tickets', COALESCE(SUM(CASE WHEN status != 'cancelled' AND type NOT ILIKE '%donor%' THEN quantity ELSE 0 END), 0),
+    'checked_in', COALESCE(SUM(CASE WHEN status != 'cancelled' AND type NOT ILIKE '%donor%' THEN checked_in_count ELSE 0 END), 0),
+    'cancelled_count', COALESCE(SUM(CASE WHEN status = 'cancelled' THEN quantity ELSE 0 END), 0)
+  ) INTO v_metrics
+  FROM filtered_tickets;
+
+  -- 3. Leaderboard Data (Updated to include event filtering)
+  WITH filtered_tickets AS (
+    SELECT * FROM tickets
+    WHERE (p_event_id IS NULL OR event_id = p_event_id)
+      AND created_at >= v_start_date
+      AND (p_type_filter = 'All Types' OR type = p_type_filter)
+      AND (p_org_filter = 'All Organisers' OR sold_by ILIKE p_org_filter)
+      AND (p_funds_filter = 'All Destinations' OR funds_destination = LOWER(p_funds_filter))
+  )
+  SELECT json_agg(t) INTO v_leaderboard
+  FROM (
+    SELECT 
+      sold_by as name,
+      COALESCE(SUM(CASE WHEN status != 'cancelled' THEN quantity ELSE 0 END), 0) as total,
+      COALESCE(SUM(CASE WHEN status != 'cancelled' THEN price * quantity ELSE 0 END), 0) as revenue,
+      COALESCE(SUM(CASE WHEN status != 'cancelled' THEN checked_in_count ELSE 0 END), 0) as total_checked,
+      
+      COALESCE(SUM(CASE WHEN status != 'cancelled' AND type = 'Platinum' THEN quantity ELSE 0 END), 0) as platinum,
+      COALESCE(SUM(CASE WHEN status != 'cancelled' AND type = 'Platinum' THEN checked_in_count ELSE 0 END), 0) as platinum_checked,
+      
+      COALESCE(SUM(CASE WHEN status != 'cancelled' AND type = 'Donor' THEN quantity ELSE 0 END), 0) as donor,
+      COALESCE(SUM(CASE WHEN status != 'cancelled' AND type = 'Donor' THEN checked_in_count ELSE 0 END), 0) as donor_checked,
+      
+      COALESCE(SUM(CASE WHEN status != 'cancelled' AND type = 'Student' THEN quantity ELSE 0 END), 0) as student,
+      COALESCE(SUM(CASE WHEN status != 'cancelled' AND type = 'Student' THEN checked_in_count ELSE 0 END), 0) as student_checked,
+      
+      COALESCE(SUM(CASE WHEN status != 'cancelled' AND type = 'VIP' THEN quantity ELSE 0 END), 0) as vip,
+      COALESCE(SUM(CASE WHEN status != 'cancelled' AND type = 'VIP' THEN checked_in_count ELSE 0 END), 0) as vip_checked
+    FROM filtered_tickets
+    WHERE sold_by IS NOT NULL
+    GROUP BY sold_by
+    ORDER BY total DESC
+  ) t;
+
+  -- 4. Chart Data
+  WITH filtered_tickets AS (
+    SELECT * FROM tickets
+    WHERE (p_event_id IS NULL OR event_id = p_event_id)
+      AND created_at >= v_start_date
+      AND (p_type_filter = 'All Types' OR type = p_type_filter)
+      AND (p_org_filter = 'All Organisers' OR sold_by ILIKE p_org_filter)
+      AND (p_funds_filter = 'All Destinations' OR funds_destination = LOWER(p_funds_filter))
+  )
+  SELECT json_agg(t) INTO v_chart_data
+  FROM (
+    SELECT 
+      type as name,
+      COALESCE(SUM(CASE WHEN status != 'cancelled' THEN quantity ELSE 0 END), 0) as sold,
+      COALESCE(SUM(CASE WHEN status != 'cancelled' THEN checked_in_count ELSE 0 END), 0) as checked_in,
+      COALESCE(SUM(CASE WHEN status != 'cancelled' THEN price * quantity ELSE 0 END), 0) as revenue
+    FROM filtered_tickets
+    GROUP BY type
+    ORDER BY sold DESC
+  ) t;
+
+  -- 5. WhatsApp Stats
+  WITH filtered_tickets AS (
+    SELECT * FROM tickets
+    WHERE (p_event_id IS NULL OR event_id = p_event_id)
+      AND created_at >= v_start_date
+      AND (p_type_filter = 'All Types' OR type = p_type_filter)
+      AND (p_org_filter = 'All Organisers' OR sold_by ILIKE p_org_filter)
+      AND (p_funds_filter = 'All Destinations' OR funds_destination = LOWER(p_funds_filter))
+  )
+  SELECT json_build_object(
+    'sent', COALESCE(COUNT(*) FILTER (WHERE whatsapp_status = 'sent'), 0),
+    'failed', COALESCE(COUNT(*) FILTER (WHERE whatsapp_status = 'failed'), 0),
+    'not_sent', COALESCE(COUNT(*) FILTER (WHERE whatsapp_status IS NULL OR whatsapp_status = 'not_sent'), 0)
+  ) INTO v_whatsapp
+  FROM filtered_tickets;
+
+  RETURN json_build_object(
+    'metrics', v_metrics,
+    'leaderboard', COALESCE(v_leaderboard, '[]'::json),
+    'chart_data', COALESCE(v_chart_data, '[]'::json),
+    'whatsapp', v_whatsapp
+  );
+END;
+$$;
+
+
+ALTER FUNCTION "public"."get_admin_dashboard_data"("p_date_filter" "text", "p_type_filter" "text", "p_org_filter" "text", "p_funds_filter" "text", "p_event_id" "uuid") OWNER TO "postgres";
 
 
 CREATE OR REPLACE FUNCTION "public"."populate_vip_sequence"() RETURNS "trigger"
@@ -192,11 +375,26 @@ CREATE TABLE IF NOT EXISTS "public"."broadcasts" (
 ALTER TABLE "public"."broadcasts" OWNER TO "postgres";
 
 
+CREATE TABLE IF NOT EXISTS "public"."event_targets" (
+    "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
+    "created_at" timestamp with time zone DEFAULT "now"(),
+    "profile_id" "uuid",
+    "event_id" "uuid",
+    "targets" "jsonb" DEFAULT '{}'::"jsonb" NOT NULL
+);
+
+
+ALTER TABLE "public"."event_targets" OWNER TO "postgres";
+
+
 CREATE TABLE IF NOT EXISTS "public"."events" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "name" "text" NOT NULL,
     "date" "date" NOT NULL,
-    "created_at" timestamp with time zone DEFAULT "timezone"('utc'::"text", "now"()) NOT NULL
+    "created_at" timestamp with time zone DEFAULT "timezone"('utc'::"text", "now"()) NOT NULL,
+    "year" integer,
+    "status" "text" DEFAULT 'active'::"text",
+    "is_default" boolean DEFAULT false
 );
 
 
@@ -256,6 +454,8 @@ CREATE TABLE IF NOT EXISTS "public"."tickets" (
     "whatsapp_opt_in" boolean DEFAULT true,
     "wa_message_id" "text",
     "vip_sequence_number" integer,
+    "checked_in_by" "text",
+    "last_checked_in_at" timestamp with time zone,
     CONSTRAINT "tickets_status_check" CHECK (("status" = ANY (ARRAY['pending'::"text", 'booked'::"text", 'ticket_issued'::"text", 'checked_in'::"text", 'cancelled'::"text"]))),
     CONSTRAINT "tickets_type_check" CHECK (("type" = ANY (ARRAY['Platinum'::"text", 'Donor'::"text", 'Student'::"text", 'VIP'::"text"])))
 );
@@ -295,6 +495,16 @@ ALTER TABLE ONLY "public"."broadcasts"
 
 
 
+ALTER TABLE ONLY "public"."event_targets"
+    ADD CONSTRAINT "event_targets_pkey" PRIMARY KEY ("id");
+
+
+
+ALTER TABLE ONLY "public"."event_targets"
+    ADD CONSTRAINT "event_targets_profile_id_event_id_key" UNIQUE ("profile_id", "event_id");
+
+
+
 ALTER TABLE ONLY "public"."events"
     ADD CONSTRAINT "events_pkey" PRIMARY KEY ("id");
 
@@ -324,11 +534,19 @@ CREATE INDEX "idx_ticket_checkins_ticket_id" ON "public"."ticket_checkins" USING
 
 
 
+CREATE INDEX "idx_tickets_checked_in_by" ON "public"."tickets" USING "btree" ("checked_in_by");
+
+
+
 CREATE INDEX "idx_tickets_created_at" ON "public"."tickets" USING "btree" ("created_at" DESC);
 
 
 
 CREATE INDEX "idx_tickets_id_text" ON "public"."tickets" USING "btree" ("id_text");
+
+
+
+CREATE INDEX "idx_tickets_last_checked_in_at" ON "public"."tickets" USING "btree" ("last_checked_in_at");
 
 
 
@@ -357,6 +575,16 @@ CREATE INDEX "idx_tickets_whatsapp_status" ON "public"."tickets" USING "btree" (
 
 
 CREATE OR REPLACE TRIGGER "trg_populate_vip_sequence" BEFORE INSERT ON "public"."tickets" FOR EACH ROW EXECUTE FUNCTION "public"."populate_vip_sequence"();
+
+
+
+ALTER TABLE ONLY "public"."event_targets"
+    ADD CONSTRAINT "event_targets_event_id_fkey" FOREIGN KEY ("event_id") REFERENCES "public"."events"("id") ON DELETE CASCADE;
+
+
+
+ALTER TABLE ONLY "public"."event_targets"
+    ADD CONSTRAINT "event_targets_profile_id_fkey" FOREIGN KEY ("profile_id") REFERENCES "public"."profiles"("id") ON DELETE CASCADE;
 
 
 
@@ -410,6 +638,17 @@ CREATE POLICY "broadcasts_manage_anon" ON "public"."broadcasts" TO "authenticate
 
 
 CREATE POLICY "broadcasts_select_anon" ON "public"."broadcasts" FOR SELECT TO "authenticated", "anon" USING (true);
+
+
+
+ALTER TABLE "public"."event_targets" ENABLE ROW LEVEL SECURITY;
+
+
+CREATE POLICY "event_targets_manage_all" ON "public"."event_targets" TO "authenticated", "anon" USING (true) WITH CHECK (true);
+
+
+
+CREATE POLICY "event_targets_select_all" ON "public"."event_targets" FOR SELECT TO "authenticated", "anon" USING (true);
 
 
 
@@ -660,6 +899,12 @@ GRANT ALL ON FUNCTION "public"."get_admin_dashboard_data"("p_date_filter" "text"
 
 
 
+GRANT ALL ON FUNCTION "public"."get_admin_dashboard_data"("p_date_filter" "text", "p_type_filter" "text", "p_org_filter" "text", "p_funds_filter" "text", "p_event_id" "uuid") TO "anon";
+GRANT ALL ON FUNCTION "public"."get_admin_dashboard_data"("p_date_filter" "text", "p_type_filter" "text", "p_org_filter" "text", "p_funds_filter" "text", "p_event_id" "uuid") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."get_admin_dashboard_data"("p_date_filter" "text", "p_type_filter" "text", "p_org_filter" "text", "p_funds_filter" "text", "p_event_id" "uuid") TO "service_role";
+
+
+
 GRANT ALL ON FUNCTION "public"."gin_extract_query_trgm"("text", "internal", smallint, "internal", "internal", "internal", "internal") TO "postgres";
 GRANT ALL ON FUNCTION "public"."gin_extract_query_trgm"("text", "internal", smallint, "internal", "internal", "internal", "internal") TO "anon";
 GRANT ALL ON FUNCTION "public"."gin_extract_query_trgm"("text", "internal", smallint, "internal", "internal", "internal", "internal") TO "authenticated";
@@ -893,6 +1138,12 @@ GRANT ALL ON FUNCTION "public"."word_similarity_op"("text", "text") TO "service_
 GRANT ALL ON TABLE "public"."broadcasts" TO "anon";
 GRANT ALL ON TABLE "public"."broadcasts" TO "authenticated";
 GRANT ALL ON TABLE "public"."broadcasts" TO "service_role";
+
+
+
+GRANT ALL ON TABLE "public"."event_targets" TO "anon";
+GRANT ALL ON TABLE "public"."event_targets" TO "authenticated";
+GRANT ALL ON TABLE "public"."event_targets" TO "service_role";
 
 
 
