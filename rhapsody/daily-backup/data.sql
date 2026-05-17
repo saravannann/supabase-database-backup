@@ -4,7 +4,7 @@ SET session_replication_role = replica;
 -- PostgreSQL database dump
 --
 
--- \restrict 4fr8H9F1MJtDILSyaVVs0bsO3QAWRCxc9t0PqZmGfmictazjjS5gn7hg35xtqSC
+-- \restrict RGrbI1YRxV9XfMmxOvIBad8vbXzRSpeledW6kUjxjdiyCG2vfZyCXJtftG1Hez1
 
 -- Dumped from database version 17.6
 -- Dumped by pg_dump version 17.6
@@ -281,7 +281,9 @@ f86d3573-6f19-4c21-8f4a-833919e67470	2026-05-15 17:23:37.383464+00	5fb423f4-bc9e
 --
 
 COPY "public"."tickets" ("id", "event_id", "type", "price", "status", "purchaser_name", "created_at", "sold_by", "purchaser_phone", "funds_destination", "quantity", "bank_txn_id", "whatsapp_status", "whatsapp_error", "last_whatsapp_at", "checked_in_count", "sequence_number", "whatsapp_opt_in", "wa_message_id", "vip_sequence_number", "checked_in_by", "last_checked_in_at") FROM stdin;
-736f507c-8430-4690-b719-775645059443	1760ad65-52a2-4f54-98cc-9c0df824384d	Platinum	500	booked	Saravanan	2026-04-20 06:11:11.69867+00	Jenny	+919962293848	organizer	1	\N	sent	\N	2026-04-20 13:58:18.708+00	0	1	t	\N	\N	\N	\N
+717ccea7-6978-4903-9a67-e1515fef1a41	1760ad65-52a2-4f54-98cc-9c0df824384d	Donor	1000	booked	Saravanan	2026-04-23 08:29:02.103+00	Christy	+919789840705	organizer	1	\N	sent	\N	2026-04-23 08:29:04.326+00	0	136	t	\N	\N	Saravanan 	2026-05-16 06:36:40.886+00
+736f507c-8430-4690-b719-775645059443	1760ad65-52a2-4f54-98cc-9c0df824384d	Platinum	500	booked	Saravanan	2026-04-20 06:11:11.69867+00	Jenny	+919962293848	organizer	1	\N	sent	\N	2026-04-20 13:58:18.708+00	0	1	t	\N	\N	Front Desk	2026-05-16 06:56:31.157+00
+65a8baa4-2bea-474f-85eb-fec4b224abb7	1760ad65-52a2-4f54-98cc-9c0df824384d	Donor	1000	booked	Saravanan	2026-04-21 10:48:44.993621+00	Preetha	+919080541187	organizer	1	\N	sent	\N	2026-04-21 10:48:46.086+00	0	79	t	\N	\N	Saravanan 	2026-05-16 06:36:47.647+00
 84ecb099-455f-4093-986b-96bb5c72ceb8	1760ad65-52a2-4f54-98cc-9c0df824384d	Platinum	500	booked	Aysha	2026-04-20 12:00:38.236564+00	Someesh	+918190077805	organizer	1	\N	sent	\N	2026-04-20 12:00:38.952+00	0	38	t	\N	\N	\N	\N
 ac0cbfac-aa97-441c-ab0c-915d6cb833cc	1760ad65-52a2-4f54-98cc-9c0df824384d	Donor	1000	booked	Jagan	2026-04-21 10:27:12.392365+00	Preetha	+919677056491	organizer	1	\N	sent	\N	2026-04-21 10:27:13.821+00	0	75	t	\N	\N	\N	\N
 a62fbe98-d0c6-4be8-baba-9efbeac302b8	1760ad65-52a2-4f54-98cc-9c0df824384d	Donor	1000	booked	Gayathri 	2026-04-24 08:19:48.169196+00	Vinyas	+919952548910	organizer	1	\N	sent	\N	2026-04-24 08:19:49.866+00	0	149	t	\N	\N	\N	\N
@@ -395,7 +397,6 @@ c94edda3-a06d-4041-b2af-d26c1f0248be	1760ad65-52a2-4f54-98cc-9c0df824384d	Donor	
 4197acb0-3df7-4b3a-b804-ccd40a908aa6	1760ad65-52a2-4f54-98cc-9c0df824384d	Donor	1000	booked	Lalith Kumar M	2026-04-22 07:54:28.51941+00	Tanu	+919840959479	organizer	1	\N	sent	\N	2026-04-22 07:54:30.179+00	0	112	t	\N	\N	\N	\N
 36471099-e9aa-4726-b22c-7da69d81d91f	1760ad65-52a2-4f54-98cc-9c0df824384d	Platinum	500	checked_in	Umesh	2026-04-21 18:13:45.597174+00	Christy	+919594509298	organizer	1	\N	sent	\N	2026-04-21 18:13:47.047+00	1	101	t	\N	\N	\N	\N
 e90e98f7-0964-45e3-b052-59dd81f4df7b	1760ad65-52a2-4f54-98cc-9c0df824384d	Platinum	500	checked_in	Rani	2026-04-21 10:36:24.199849+00	Christy	+919443399044	organizer	2	\N	sent	\N	2026-04-21 10:36:25.1+00	2	78	t	\N	\N	\N	\N
-65a8baa4-2bea-474f-85eb-fec4b224abb7	1760ad65-52a2-4f54-98cc-9c0df824384d	Donor	1000	booked	Saravanan	2026-04-21 10:48:44.993621+00	Preetha	+919080541187	organizer	1	\N	sent	\N	2026-04-21 10:48:46.086+00	0	79	t	\N	\N	\N	\N
 8bbde5dd-e0ee-42f4-bd1f-35cb167600c2	1760ad65-52a2-4f54-98cc-9c0df824384d	Platinum	500	booked	John	2026-04-21 13:52:08.715561+00	Christy	+919894540874	organizer	3	\N	sent	\N	2026-04-21 13:52:09.773+00	2	84	t	\N	\N	\N	\N
 81fcafc9-ebe4-4608-8a74-d9d0803513cd	1760ad65-52a2-4f54-98cc-9c0df824384d	Platinum	500	checked_in	Jagadesan P	2026-04-22 06:38:42.219989+00	Tanu	+919840760761	organizer	4	\N	sent	\N	2026-04-22 06:38:44.655+00	4	107	t	\N	\N	\N	\N
 6650cdd7-8699-477e-9736-c1788b7f6c3b	1760ad65-52a2-4f54-98cc-9c0df824384d	Platinum	500	booked	Divya	2026-04-21 12:16:15.930129+00	Jenny	+919176888760	organizer	2	\N	sent	\N	2026-04-21 12:16:18.206+00	1	80	t	\N	\N	\N	\N
@@ -452,7 +453,6 @@ b479bbee-32f1-4761-bdc2-334863e8f3b2	1760ad65-52a2-4f54-98cc-9c0df824384d	Platin
 fe4e2377-bd88-4909-9fcc-637e41537c75	1760ad65-52a2-4f54-98cc-9c0df824384d	Platinum	500	booked	Rajesh Kumar	2026-04-23 07:35:30.742065+00	Arun	+919789098608	organizer	5	\N	sent	\N	2026-04-23 07:35:31.57+00	0	134	t	\N	\N	\N	\N
 326af7b5-85fd-4488-ba71-799e2fbe17f1	1760ad65-52a2-4f54-98cc-9c0df824384d	Donor	1000	booked	Anjana	2026-04-23 07:36:15.050235+00	Ramya	+44 7778 770784	organizer	10	\N	sent	\N	2026-04-23 07:36:52.355+00	0	135	t	\N	\N	\N	\N
 1377625b-3307-4e68-a8b5-8a9d7227c4ab	1760ad65-52a2-4f54-98cc-9c0df824384d	Platinum	500	booked	Terry Bevan 	2026-04-23 07:34:59.12812+00	Arun	+918300140011	organizer	5	\N	sent	\N	2026-04-23 07:53:47.881+00	0	133	t	\N	\N	\N	\N
-717ccea7-6978-4903-9a67-e1515fef1a41	1760ad65-52a2-4f54-98cc-9c0df824384d	Donor	1000	booked	Saravanan	2026-04-23 08:29:02.103+00	Christy	+919789840705	organizer	1	\N	sent	\N	2026-04-23 08:29:04.326+00	0	136	t	\N	\N	\N	\N
 c9831124-3eb2-42f2-b611-34f66aa82b9f	1760ad65-52a2-4f54-98cc-9c0df824384d	Platinum	500	booked	Saravanan 	2026-04-23 08:37:20.150101+00	Ramya	+919843759247	organizer	6	\N	sent	\N	2026-04-23 08:37:22.229+00	0	137	t	\N	\N	\N	\N
 818c5531-8991-44a4-80cd-95c5340a4258	1760ad65-52a2-4f54-98cc-9c0df824384d	Donor	1000	booked	Archana Aarthy	2026-04-23 19:28:45.992998+00	Christy	+919940866363	organizer	10	\N	sent	\N	2026-04-23 19:28:48.204+00	0	139	t	\N	\N	\N	\N
 3bffb70b-b1a9-4594-8a51-ccea9216944d	1760ad65-52a2-4f54-98cc-9c0df824384d	Donor	1000	booked	Prakash SM	2026-04-24 01:48:51.914188+00	Arun	+919840231272	trust	5	IN12611334098515	sent	\N	2026-04-24 01:48:53.58+00	0	140	t	\N	\N	\N	\N
@@ -1446,6 +1446,6 @@ SELECT pg_catalog.setval('"public"."vip_ticket_sequence"', 44, true);
 -- PostgreSQL database dump complete
 --
 
--- \unrestrict 4fr8H9F1MJtDILSyaVVs0bsO3QAWRCxc9t0PqZmGfmictazjjS5gn7hg35xtqSC
+-- \unrestrict RGrbI1YRxV9XfMmxOvIBad8vbXzRSpeledW6kUjxjdiyCG2vfZyCXJtftG1Hez1
 
 RESET ALL;
