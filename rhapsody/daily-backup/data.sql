@@ -4,7 +4,7 @@ SET session_replication_role = replica;
 -- PostgreSQL database dump
 --
 
--- \restrict KNzWxiN01u1pOUM9NTcat2HsC8cATSPeiHP1CwicYuX8eDLo29IXnJC15sjGUyA
+-- \restrict sRvC1ACqE4rpXvImdesoyKBarMzUA3EBJSQxfkonP4c96beT1YVDOgG5zNdMaH6
 
 -- Dumped from database version 17.6
 -- Dumped by pg_dump version 17.11
@@ -1478,6 +1478,6 @@ SELECT pg_catalog.setval('"public"."vip_ticket_sequence"', 44, true);
 -- PostgreSQL database dump complete
 --
 
--- \unrestrict KNzWxiN01u1pOUM9NTcat2HsC8cATSPeiHP1CwicYuX8eDLo29IXnJC15sjGUyA
+-- \unrestrict sRvC1ACqE4rpXvImdesoyKBarMzUA3EBJSQxfkonP4c96beT1YVDOgG5zNdMaH6
 
 RESET ALL;
